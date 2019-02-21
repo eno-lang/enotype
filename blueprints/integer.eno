@@ -1,0 +1,100 @@
+name: integer
+
+-- description
+TODO
+-- description
+
+# messages
+
+integer_required:
+de = Eine Ganzzahl ist erforderlich, zum Beispiel '42' oder '-21'.
+en = An integer is required, for instance '42' or '-21'.
+es = Se requiere un número entero, por ejemplo '42' o '-21'.
+
+# implementations
+
+## javascript
+
+-- code
+value => {
+  if(!value.match(/^\s*-?\d+\s*$/))
+    throw 'integer_required';
+
+  return parseInt(value);
+}
+-- code
+
+specs:
+'42' = 42
+'-42' = -42
+'42.0' =
+'42,0' =
+'4 2' =
+'fortytwo' =
+
+## php
+
+prelude:
+- use \Exception;
+- private const INTEGER_REGEXP = '/^\s*-?\d+\s*$/';
+
+-- code
+public static function integer($value) {
+  if(!preg_match(self::INTEGER_REGEXP, $value)) {
+    throw new Exception('integer_required');
+  }
+
+  return intval($value);
+}
+-- code
+
+specs:
+'42' = 42
+'-42' = -42
+'42.0' =
+'42,0' =
+'4 2' =
+'fortytwo' =
+
+## python
+
+prelude:
+- import re
+- INTEGER_RE = re.compile(r'^\s*-?\d+\s*$')
+
+-- code
+def integer(value):
+  if not INTEGER_RE.match(value):
+    raise ValueError('integer_required')
+
+  return int(value)
+-- code
+
+specs:
+'42' = 42
+'-42' = -42
+'42.0' =
+'42,0' =
+'4 2' =
+'fortytwo' =
+
+## ruby
+
+prelude:
+- INTEGER_REGEXP = /^\s*-?\d+\s*$/
+
+-- code
+def self.integer(value)
+  raise 'integer_required' unless value.match(INTEGER_REGEXP)
+
+  value.to_i
+end
+-- code
+
+specs:
+'42' = 42
+'-42' = -42
+'42.0' =
+'42,0' =
+'4 2' =
+'fortytwo' =

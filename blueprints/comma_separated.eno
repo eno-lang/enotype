@@ -1,0 +1,85 @@
+name: comma_separated
+
+-- description
+TODO
+-- description
+
+> TODO: '   ' = [''] would make more sense as '   ' = [] ...
+>       consider updating spec and implementation of this
+
+> TODO: Support omitting messages section
+# messages
+
+# implementations
+
+## javascript
+
+-- code
+value => value.split(',').map(item => item.trim())
+-- code
+
+specs:
+'one,two,three' = ['one', 'two', 'three']
+' one,two,three ' = ['one', 'two', 'three']
+'one , two , three' = ['one', 'two', 'three']
+' one , two , three ' = ['one', 'two', 'three']
+',,' =  ['', '', '']
+'one two three' = ['one two three']
+'one;two;three' = ['one;two;three']
+'   ' = ['']
+
+## php
+
+-- code
+public static function commaSeparated($value) {
+  return array_map(
+    function($item) { return trim($item); },
+    explode(',', $value)
+  );
+}
+-- code
+
+specs:
+'one,two,three' = ['one', 'two', 'three']
+' one,two,three ' = ['one', 'two', 'three']
+'one , two , three' = ['one', 'two', 'three']
+' one , two , three ' = ['one', 'two', 'three']
+',,' =  ['', '', '']
+'one two three' = ['one two three']
+'one;two;three' = ['one;two;three']
+'   ' = ['']
+
+## python
+
+-- code
+def comma_separated(value):
+  return [item.strip() for item in value.split(',')]
+-- code
+
+specs:
+'one,two,three' = ['one', 'two', 'three']
+' one,two,three ' = ['one', 'two', 'three']
+'one , two , three' = ['one', 'two', 'three']
+' one , two , three ' = ['one', 'two', 'three']
+',,' =  ['', '', '']
+'one two three' = ['one two three']
+'one;two;three' = ['one;two;three']
+'   ' = ['']
+
+## ruby
+
+-- code
+def self.comma_separated(value)
+  value.split(',', -1).map { |item| item.strip  }
+end
+-- code
+
+specs:
+'one,two,three' = ['one', 'two', 'three']
+' one,two,three ' = ['one', 'two', 'three']
+'one , two , three' = ['one', 'two', 'three']
+' one , two , three ' = ['one', 'two', 'three']
+',,' =  ['', '', '']
+'one two three' = ['one two three']
+'one;two;three' = ['one;two;three']
+'   ' = ['']

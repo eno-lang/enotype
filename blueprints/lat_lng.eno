@@ -1,0 +1,128 @@
+name: lat_lng
+
+-- description
+TODO
+-- description
+
+# messages
+
+lat_lng_required:
+de = Ein valides Breiten-/Längengrad Koordinatenpaar ist erforderlich, zum Beispiel '48.2093723, 16.356099'.
+en = A valid latitude/longitude coordinate pair is required, for instance '48.2093723, 16.356099'.
+es = Se requiere una pareja de coordenadas latitud/longitud valida, por ejemplo '48.2093723, 16.356099'
+
+# implementations
+
+## javascript
+
+-- code
+value => {
+  const match = /^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$/.exec(value);
+
+  if(!match)
+    throw 'lat_lng_required';
+
+  return { lat: parseFloat(match[1]), lng: parseFloat(match[2]) };
+}
+-- code
+
+specs:
+'48.205870, 16.413690' = { lat: 48.205870, lng: 16.413690 }
+'41.25, -120.9762' = { lat: 41.25, lng: -120.9762 }
+'-31.96, 115.84' = { lat: -31.96, lng: 115.84 }
+'90, 0' = { lat: 90, lng: 0 }
+'   0   ,   0   ' = { lat: 0, lng: 0 }
+'-0,-0' = { lat: -0, lng: -0 }
+'1000,10' =
+'10,1000' =
+'48.205870,' =
+', 16.413690' =
+'48,205870, 16,413690' =
+
+## php
+
+prelude:
+- use \Exception;
+- private const LAT_LNG_REGEXP = '/^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$/';
+
+-- code
+public static function latLng($value) {
+  $matched = preg_match(self::LAT_LNG_REGEXP, $value, $match);
+
+  if(!$matched) {
+    throw new Exception('lat_lng_required');
+  }
+
+  return [ 'lat' => floatval($match[1]), 'lng' => floatval($match[2]) ];
+}
+-- code
+
+specs:
+'48.205870, 16.413690' = [ 'lat' => 48.205870, 'lng' => 16.413690 ]
+'41.25, -120.9762' = [ 'lat' => 41.25, 'lng' => -120.9762 ]
+'-31.96, 115.84' = [ 'lat' => -31.96, 'lng' => 115.84 ]
+'90, 0' = [ 'lat' => 90, 'lng' => 0 ]
+'   0   ,   0   ' = [ 'lat' => 0, 'lng' => 0 ]
+'-0,-0' = [ 'lat' => -0, 'lng' => -0 ]
+'1000,10' =
+'10,1000' =
+'48.205870,' =
+', 16.413690' =
+'48,205870, 16,413690' =
+
+## python
+
+prelude:
+- import re
+- LAT_LNG_RE = re.compile(r'^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$')
+
+-- code
+def lat_lng(value):
+  match = LAT_LNG_RE.match(value)
+
+  if not match:
+    raise ValueError('lat_lng_required')
+
+  return { 'lat': python_float(match.group(1)), 'lng': python_float(match.group(2)) }
+-- code
+
+specs:
+'48.205870, 16.413690' = { 'lat': 48.205870, 'lng': 16.413690 }
+'41.25, -120.9762' = { 'lat': 41.25, 'lng': -120.9762 }
+'-31.96, 115.84' = { 'lat': -31.96, 'lng': 115.84 }
+'90, 0' = { 'lat': 90, 'lng': 0 }
+'   0   ,   0   ' = { 'lat': 0, 'lng': 0 }
+'-0,-0' = { 'lat': -0, 'lng': -0 }
+'1000,10' =
+'10,1000' =
+'48.205870,' =
+', 16.413690' =
+'48,205870, 16,413690' =
+
+## ruby
+
+prelude:
+- LAT_LNG_REGEXP = /^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$/
+
+-- code
+def self.lat_lng(value)
+  match = LAT_LNG_REGEXP.match(value)
+
+  raise 'lat_lng_required' unless match
+
+  { lat: match[1].to_f, lng: match[2].to_f }
+end
+-- code
+
+specs:
+'48.205870, 16.413690' = { lat: 48.205870, lng: 16.413690 }
+'41.25, -120.9762' = { lat: 41.25, lng: -120.9762 }
+'-31.96, 115.84' = { lat: -31.96, lng: 115.84 }
+'90, 0' = { lat: 90, lng: 0 }
+'   0   ,   0   ' = { lat: 0, lng: 0 }
+'-0,-0' = { lat: -0, lng: -0 }
+'1000,10' =
+'10,1000' =
+'48.205870,' =
+', 16.413690' =
+'48,205870, 16,413690' =

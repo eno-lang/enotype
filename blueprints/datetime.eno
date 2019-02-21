@@ -1,0 +1,199 @@
+name: datetime
+
+-- description
+TODO
+-- description
+
+> Format specification thankfully taken from https://www.w3.org/TR/NOTE-datetime
+>
+> 1997
+> 1997-07
+> 1997-07-16
+> 1997-07-16T19:20+01:00
+> 1997-07-16T19:20:30+01:00
+> 1997-07-16T19:20:30.45+01:00
+> 1994-11-05T08:15:30-05:00
+> 1994-11-05T13:15:30Z
+
+# messages
+
+datetime_required:
+de = Ein valides Datum oder Datum und Zeit sind erforderlich, zum Beispiel '1961-01-22' oder '1989-11-09T19:17Z' (siehe https://www.w3.org/TR/NOTE-datetime).
+en = A valid date or date and time are required, for instance '1961-01-22' or '1989-11-09T19:17Z' (see https://www.w3.org/TR/NOTE-datetime).
+es = Se requiere una valida fecha o fecha y hora, por ejemplo '1961-01-22' o '1989-11-09T19:17Z' (vea https://www.w3.org/TR/NOTE-datetime).
+
+# implementations
+
+## javascript
+
+-- code
+value => {
+  const match = /^\s*(\d{4})(?:-(\d\d)(?:-(\d\d)(?:T(\d\d):(\d\d)(?::(\d\d)(?:\.(\d+))?)?(?:(Z)|([+\-])(\d\d):(\d\d)))?)?)?\s*$/.exec(value);
+
+  if(!match)
+    throw 'datetime_required';
+  
+  // TODO: Re-implement without depending on fragile and inconsistent dateString parsing implementation
+  return new Date(value);
+}
+-- code
+
+specs:
+'1990' = new Date(Date.UTC(1990, 0, 1))
+'1991-01' = new Date(Date.UTC(1991, 0, 1))
+'1992-02-02' = new Date(Date.UTC(1992, 1, 2))
+`'1993-03-03T19:20+01:00'` = new Date(Date.UTC(1993, 2, 3, 18, 20))
+`'1994-04-04T19:20:30+01:00'` = new Date(Date.UTC(1994, 3, 4, 18, 20, 30))
+`'1995-05-05T19:20:30.45+01:00'` = new Date(Date.UTC(1995, 4, 5, 18, 20, 30, 450))
+`'1996-06-06T08:15:30-05:00'` = new Date(Date.UTC(1996, 5, 6, 13, 15, 30))
+`'1997-07-07T13:15:30Z'` = new Date(Date.UTC(1997, 6, 7, 13, 15, 30))
+'2002 12 14' =
+`'2002-12-14 20:15'` =
+'January' =
+`'13:00'` =
+
+## php
+
+prelude:
+- use \DateTime;
+- use \DateTimeZone;
+- use \Exception;
+- private const DATETIME_REGEXP = '/^\s*(\d{4})(?:-(\d\d)(?:-(\d\d)(?:T(\d\d):(\d\d)(?::(\d\d)(?:\.(\d+))?)?(?:(Z)|([+\-])(\d\d):(\d\d)))?)?)?\s*$/';
+
+-- code
+public static function datetime($value) {
+  $matched = preg_match(self::DATETIME_REGEXP, $value, $match, PREG_UNMATCHED_AS_NULL);
+
+  if(!$matched) {
+    throw new Exception('datetime_required');
+  }
+
+  $timezone_sign = isset($match[9]) ? $match[9] : '+';
+  $timezone_hour = isset($match[10]) ? $match[10] : '00';
+  $timezone_minutes = isset($match[11]) ? $match[11] : '00';
+  $timezone = new DateTimeZone(
+    isset($match[8]) ? '+0000' : "{$timezone_sign}{$timezone_hour}{$timezone_minutes}"
+  );
+
+  $date_time = new DateTime('0000-00-00', $timezone);
+
+  $date_time->setDate(
+    intval($match[1]),
+    isset($match[2]) ? intval($match[2]) : 1,
+    isset($match[3]) ? intval($match[3]) : 1
+  );
+  $date_time->setTime(
+    isset($match[4]) ? intval($match[4]) : 0,
+    isset($match[5]) ? intval($match[5]) : 0,
+    isset($match[6]) ? intval($match[6]) : 0,
+    isset($match[7]) ? (int)(floatval("0.{$match[7]}") * 1000000) : 0
+  );
+
+  return $date_time;
+}
+-- code
+
+specs:
+'1990' = new DateTime('1990-01-01', new DateTimeZone('UTC'))
+'1991-01' = new DateTime('1991-01-01', new DateTimeZone('UTC'))
+'1992-02-02' = new DateTime('1992-02-02', new DateTimeZone('UTC'))
+`'1993-03-03T19:20+01:00'` = new DateTime('1993-03-03T19:20', new DateTimeZone('+0100'))
+`'1994-04-04T19:20:30+01:00'` = new DateTime('1994-04-04T19:20:30+0100', new DateTimeZone('+0100'))
+`'1995-05-05T19:20:30.45+01:00'` = new DateTime('1995-05-05T19:20:30.45', new DateTimeZone('+0100'))
+`'1996-06-06T08:15:30-05:00'` = new DateTime('1996-06-06T08:15:30', new DateTimeZone('-0500'))
+`'1997-07-07T13:15:30Z'` = new DateTime('1997-07-07T13:15:30', new DateTimeZone('UTC'))
+'2002 12 14' =
+`'2002-12-14 20:15'` =
+'January' =
+`'13:00'` =
+
+## python
+
+prelude:
+- from datetime import datetime as python_datetime
+- import re
+- DATETIME_RE = re.compile(r'^\s*(\d{4})(?:-(\d\d)(?:-(\d\d)(?:T(\d\d):(\d\d)(?::(\d\d)(?:\.(\d+))?)?(?:(Z)|([+\-])(\d\d):(\d\d)))?)?)?\s*$')
+
+-- code
+def datetime(value):
+  match = DATETIME_RE.match(value)
+
+  if not match:
+    raise ValueError('datetime_required')
+
+  year = match.group(1)
+  month = match.group(2) or '01'
+  day = match.group(3) or '01'
+  hour = match.group(4) or '00'
+  minute = match.group(5) or '00'
+  second = match.group(6) or '00'
+  fraction = match.group(7) or '00'
+  zulu = match.group(8)
+
+  if zulu is None:
+    offset_sign = match.group(9) or '+'
+    offset_hours = match.group(10) or '00'
+    offset_minutes = match.group(11) or '00'
+  else:
+    offset_sign = '+'
+    offset_hours = '00'
+    offset_minutes = '00'
+
+  normalized = f"{year}-{month}-{day}T{hour}:{minute}:{second}.{fraction}{offset_sign}{offset_hours}{offset_minutes}"
+
+  # TODO: See if this can be replaced with a direct initialization without another string parse step at some point
+  return python_datetime.strptime(normalized, '%Y-%m-%dT%H:%M:%S.%f%z')
+-- code
+
+specs:
+'1990' = python_datetime.strptime('1990-01-01T00:00:00.000+0000', '%Y-%m-%dT%H:%M:%S.%f%z')
+'1991-01' = python_datetime.strptime('1991-01-01T00:00:00.000+0000', '%Y-%m-%dT%H:%M:%S.%f%z')
+'1992-02-02' = python_datetime.strptime('1992-02-02T00:00:00.000+0000', '%Y-%m-%dT%H:%M:%S.%f%z')
+`'1993-03-03T19:20+01:00'` = python_datetime.strptime('1993-03-03T18:20:00.000+0000', '%Y-%m-%dT%H:%M:%S.%f%z')
+`'1994-04-04T19:20:30+01:00'` = python_datetime.strptime('1994-04-04T18:20:30.000+0000', '%Y-%m-%dT%H:%M:%S.%f%z')
+`'1995-05-05T19:20:30.45+01:00'` = python_datetime.strptime('1995-05-05T18:20:30.450+0000', '%Y-%m-%dT%H:%M:%S.%f%z')
+`'1996-06-06T08:15:30-05:00'` = python_datetime.strptime('1996-06-06T08:15:30.000-0500', '%Y-%m-%dT%H:%M:%S.%f%z')
+`'1997-07-07T13:15:30Z'` = python_datetime.strptime('1997-07-07T13:15:30.000+0000', '%Y-%m-%dT%H:%M:%S.%f%z')
+'2002 12 14' =
+`'2002-12-14 20:15'` =
+'January' =
+`'13:00'` =
+
+## ruby
+
+prelude:
+- DATETIME_REGEXP = /^\s*(\d{4})(?:-(\d\d)(?:-(\d\d)(?:T(\d\d):(\d\d)(?::(\d\d)(?:\.(\d+))?)?(?:(Z)|([+\-])(\d\d):(\d\d)))?)?)?\s*$/
+
+-- code
+def self.datetime(value)
+  match = value.match(DATETIME_REGEXP)
+
+  raise 'datetime_required' unless match
+
+  year = match[1].to_i
+  month = match[2] ? match[2].to_i : 1
+  day = match[3] ? match[3].to_i : 1
+  hour = match[4] ? match[4].to_i : 0
+  minute = match[5] ? match[5].to_i : 0
+  second = match[6] ? match[6].to_i : 0
+  fraction = match[7] ? "0.#{match[7]}".to_f : 0
+  zulu = match[8]
+  offset = zulu ? '+00:00' : "#{match[9] || '+'}#{match[10] || '00'}:#{match[11] || '00'}"
+
+  Time.new(year, month, day, hour, minute, second + fraction, offset)
+end
+-- code
+
+specs:
+'1990' = Time.utc(1990, 1, 1)
+'1991-01' = Time.utc(1991, 1, 1)
+'1992-02-02' = Time.utc(1992, 2, 2)
+`'1993-03-03T19:20+01:00'` = Time.utc(1993, 3, 3, 18, 20)
+`'1994-04-04T19:20:30+01:00'` = Time.new(1994, 4, 4, 19, 20, 30, '+01:00')
+`'1995-05-05T19:20:30.450+01:00'` = Time.new(1995, 5, 5, 19, 20, 30.450, '+01:00')
+`'1996-06-06T08:15:30-05:00'` = Time.new(1996, 6, 6, 8, 15, 30, '-05:00')
+`'1997-07-07T13:15:30Z'` = Time.utc(1997, 7, 7, 13, 15, 30)
+'2002 12 14' =
+`'2002-12-14 20:15'` =
+'January' =
+`'13:00'` =

@@ -1,0 +1,92 @@
+name: email
+
+-- description
+TODO
+-- description
+
+# messages
+
+email_required:
+de = Eine valide Email Adresse ist erforderlich, zum Beispiel 'jane.doe@eno-lang.org'.
+en = A valid email address is required, for instance 'jane.doe@eno-lang.org'.
+es = Se requiere una dirección electrónica valida, por ejemplo 'jane.doe@eno-lang.org'.
+
+# implementations
+
+## javascript
+
+-- code
+value => {
+  if(!value.match(/^\s*[^@\s]+@[^@\s]+\.[^@\s]+\s*$/))
+    throw 'email_required';
+
+  return value;
+}
+-- code
+
+specs:
+'john.doe@eno-lang.org' = 'john.doe@eno-lang.org'
+'john.doe@eno-lang' =
+'@eno-lang.org' =
+'john.doe@.org' =
+
+## php
+
+prelude:
+- use \Exception;
+- private const EMAIL_REGEXP = '/^\s*[^@\s]+@[^@\s]+\.[^@\s]+\s*$/';
+
+-- code
+public static function email($value) {
+  if(!preg_match(self::EMAIL_REGEXP, $value)) {
+    throw new Exception('email_required');
+  }
+
+  return $value;
+}
+-- code
+
+specs:
+'john.doe@eno-lang.org' = 'john.doe@eno-lang.org'
+'john.doe@eno-lang' =
+'@eno-lang.org' =
+'john.doe@.org' =
+
+## python
+
+prelude:
+- import re
+- EMAIL_RE = re.compile(r'^\s*[^@\s]+@[^@\s]+\.[^@\s]+\s*$')
+
+-- code
+def email(value):
+  if not EMAIL_RE.match(value):
+    raise ValueError('email_required')
+
+  return value
+-- code
+
+specs:
+'john.doe@eno-lang.org' = 'john.doe@eno-lang.org'
+'john.doe@eno-lang' =
+'@eno-lang.org' =
+'john.doe@.org' =
+
+## ruby
+
+prelude:
+- EMAIL_REGEXP = /^\s*[^@\s]+@[^@\s]+\.[^@\s]+\s*$/
+
+-- code
+def self.email(value)
+  raise 'email_required' unless value.match(EMAIL_REGEXP)
+
+  value
+end
+-- code
+
+specs:
+'john.doe@eno-lang.org' = 'john.doe@eno-lang.org'
+'john.doe@eno-lang' =
+'@eno-lang.org' =
+'john.doe@.org' =

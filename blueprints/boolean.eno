@@ -1,0 +1,107 @@
+name: boolean
+
+-- description
+Accepts `'true'`, `'false'`, `'yes'` and `'no'`, returns a boolean (or throws an error for invalid values).
+-- description
+
+# messages
+
+boolean_required:
+de = Ein boolescher Wert ist erforderlich - erlaubte Werte sind 'true', 'false', 'yes' und 'no'.
+en = A boolean is required - allowed values are 'true', 'false', 'yes' and 'no'.
+es = Se requiere un valor booleano - valores permitidos son 'true', 'false', 'yes' y 'no'.
+
+# implementations
+
+## javascript
+
+-- code
+value => {
+  switch(value.trim().toLowerCase()) {
+    case 'true': return true;
+    case 'false': return false;
+    case 'yes': return true;
+    case 'no': return false;
+    default: throw 'boolean_required';
+  }
+}
+-- code
+
+specs:
+'true' = true
+'false' = false
+'yes' = true
+'no' = false
+'nope' =
+
+## php
+
+prelude:
+- use \Exception;
+
+-- code
+public static function boolean($value) {
+  $lower = strtolower(trim($value));
+
+  if($lower === 'true') return true;
+  if($lower === 'false') return false;
+  if($lower === 'yes') return true;
+  if($lower === 'no') return false;
+
+  throw new Exception('boolean_required');
+}
+-- code
+
+specs:
+'true' = true
+'false' = false
+'yes' = true
+'no' = false
+'nope' =
+
+## python
+
+-- code
+def boolean(value):
+  lower = value.strip().lower()
+
+  if lower == 'true':
+    return True
+  if lower == 'false':
+    return False
+  if lower == 'yes':
+    return True
+  if lower == 'no':
+    return False
+
+  raise ValueError('boolean_required')
+-- code
+
+specs:
+'true' = True
+'false' = False
+'yes' = True
+'no' = False
+'nope' =
+
+## ruby
+
+-- code
+def self.boolean(value)
+  lower = value.strip.downcase
+
+  return true if lower == 'true'
+  return false if lower == 'false'
+  return true if lower == 'yes'
+  return false if lower == 'no'
+
+  raise 'boolean_required'
+end
+-- code
+
+specs:
+'true' = true
+'false' = false
+'yes' = true
+'no' = false
+'nope' =

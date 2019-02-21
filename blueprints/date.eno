@@ -1,0 +1,154 @@
+name: date
+
+-- description
+TODO
+-- description
+
+# messages
+
+date_required:
+de = Ein valides Datum ist erforderlich, zum Beispiel '1993-11-18'.
+en = A valid date is required, for instance '1993-11-18'.
+es = Se requiere una fecha valida, por ejemplo '1993-11-18'
+
+# implementations
+
+## javascript
+
+-- code
+value => {
+  const match = /^\s*(\d{4})-(\d\d)-(\d\d)\s*$/.exec(value);
+
+  if(!match)
+    throw 'date_required';
+
+  const year = parseInt(match[1]);
+  const month = parseInt(match[2]);
+  const day = parseInt(match[3]);
+
+  return new Date(Date.UTC(year, month - 1, day));
+}
+-- code
+
+specs:
+'1992-02-02' = new Date(Date.UTC(1992, 1, 2))
+'1990' =
+'1991-01' =
+`'1993-03-03T1920+01:00'` =
+`'1994-04-04T1920:30+01:00'` =
+`'1995-05-05T1920:30.45+01:00'` =
+`'1996-06-06T0815:30-05:00'` =
+`'1997-07-07T1315:30Z'` =
+'2002 12 14' =
+`'2002-12-14 20:15'` =
+'January' =
+`'13:00'` =
+
+## php
+
+prelude:
+- use \DateTime;
+- use \DateTimeZone;
+- use \Exception;
+- private const DATE_REGEXP = '/^\s*(\d{4})-(\d\d)-(\d\d)\s*$/';
+
+-- code
+public static function date($value) {
+  $matched = preg_match(self::DATE_REGEXP, $value, $match);
+
+  if(!$matched) {
+    throw new Exception('date_required');
+  }
+
+  $date_time = new DateTime('0000-00-00', new DateTimeZone('UTC'));
+  $date_time->setDate(
+    intval($match[1]),
+    intval($match[2]),
+    intval($match[3])
+  );
+
+  return $date_time;
+}
+-- code
+
+specs:
+'1992-02-02' = new DateTime('1992-02-02', new DateTimeZone('UTC'))
+'1990' =
+'1991-01' =
+`'1993-03-03T1920+01:00'` =
+`'1994-04-04T1920:30+01:00'` =
+`'1995-05-05T1920:30.45+01:00'` =
+`'1996-06-06T0815:30-05:00'` =
+`'1997-07-07T1315:30Z'` =
+'2002 12 14' =
+`'2002-12-14 20:15'` =
+'January' =
+`'13:00'` =
+
+## python
+
+prelude:
+- from datetime import date as python_date
+- import re
+- DATE_RE = re.compile(r'^\s*(\d{4})-(\d\d)-(\d\d)\s*$')
+
+-- code
+def date(value):
+  match = DATE_RE.match(value)
+
+  if not match:
+    raise ValueError('date_required')
+
+  year = int(match.group(1))
+  month = int(match.group(2))
+  day = int(match.group(3))
+
+  return python_date(year, month, day)
+-- code
+
+specs:
+'1992-02-02' = python_date(1992, 2, 2)
+'1990' =
+'1991-01' =
+`'1993-03-03T1920+01:00'` =
+`'1994-04-04T1920:30+01:00'` =
+`'1995-05-05T1920:30.45+01:00'` =
+`'1996-06-06T0815:30-05:00'` =
+`'1997-07-07T1315:30Z'` =
+'2002 12 14' =
+`'2002-12-14 20:15'` =
+'January' =
+`'13:00'` =
+
+## ruby
+
+prelude:
+- DATE_REGEXP = /^\s*(\d{4})-(\d\d)-(\d\d)\s*$/
+
+-- code
+def self.date(value)
+  match = value.match(DATE_REGEXP)
+
+  raise 'date_required' unless match
+
+  year = match[1].to_i
+  month = match[2].to_i
+  day = match[3].to_i
+
+  Time.utc(year, month, day)
+end
+-- code
+
+specs:
+'1992-02-02' = Time.utc(1992, 2, 2)
+'1990' =
+'1991-01' =
+`'1993-03-03T1920+01:00'` =
+`'1994-04-04T1920:30+01:00'` =
+`'1995-05-05T1920:30.45+01:00'` =
+`'1996-06-06T0815:30-05:00'` =
+`'1997-07-07T1315:30Z'` =
+'2002 12 14' =
+`'2002-12-14 20:15'` =
+'January' =
+`'13:00'` =

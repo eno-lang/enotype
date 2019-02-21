@@ -1,0 +1,126 @@
+name: json
+
+-- description
+TODO
+-- description
+
+# messages
+
+json_required:
+de = Valides JSON ist erforderlich - die Meldung des Parsers war:
+en = Valid JSON is required - the parser returned:
+es = Se requiere JSON valido - el mensaje del parser fue:
+
+# implementations
+
+## javascript
+
+-- code
+value => {
+  try {
+    return JSON.parse(value);
+  } catch(err) {
+    throw `json_required\n${err.message}`;
+  }
+}
+-- code
+
+specs:
+`'{ "valid": true }'` = { valid: true }
+'42' = 42
+'["valid", true]' = ['valid', true]
+'invalid' =
+`'{ invalid: true }'` =
+`'{ "invalid": true, }'` =
+
+## php
+
+prelude:
+- use \Exception;
+- private const INTEGER_REGEXP = '/^\s*-?\d+\s*$/';
+
+> TODO: Possibly translate the JSON error codes :)
+-- code
+public static function json($value) {
+  $decoded = json_decode($value);
+
+  switch(json_last_error()) {
+    case JSON_ERROR_NONE:
+        return $decoded;
+    case JSON_ERROR_DEPTH:
+      $error = 'Maximum stack depth exceeded';
+      break;
+    case JSON_ERROR_STATE_MISMATCH:
+      $error = 'Underflow or the modes mismatch';
+      break;
+    case JSON_ERROR_CTRL_CHAR:
+      $error = 'Unexpected control character found';
+      break;
+    case JSON_ERROR_SYNTAX:
+      $error = 'Syntax error, malformed JSON';
+      break;
+    case JSON_ERROR_UTF8:
+      $error = 'Malformed UTF-8 characters, possibly incorrectly encoded';
+      break;
+    default:
+      $error = 'Unknown error';
+      break;
+  }
+
+  throw new Exception("json_required\n" . $error);
+}
+-- code
+
+specs:
+`'{ "valid": true }'` = (object) [ 'valid' => true ]
+'42' = 42
+'["valid", true]' = ['valid', true]
+'invalid' =
+`'{ invalid: true }'` =
+`'{ "invalid": true, }'` =
+
+## python
+
+prelude:
+- import re
+- import json as python_json
+- INTEGER_RE = re.compile(r'^\s*-?\d+\s*$')
+
+-- code
+def json(value):
+  try:
+    return python_json.loads(value)
+  except python_json.JSONDecodeError as e:
+    raise ValueError(f"json_required\n{e}")
+-- code
+
+specs:
+`'{ "valid": true }'` = { 'valid': True }
+'42' = 42
+'["valid", true]' = ['valid', True]
+'invalid' =
+`'{ invalid: true }'` =
+`'{ "invalid": true, }'` =
+
+## ruby
+
+prelude:
+- require 'json'
+
+-- code
+def self.json(value)
+  begin
+    JSON.parse(value)
+  rescue => err
+    raise "json_required\n#{err.message}"
+  end
+end
+-- code
+
+specs:
+`'{ "valid": true }'` = { 'valid' => true }
+'42' = 42
+'["valid", true]' = ['valid', true]
+'invalid' =
+`'{ invalid: true }'` =
+`'{ "invalid": true, }'` =

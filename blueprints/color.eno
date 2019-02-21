@@ -1,0 +1,116 @@
+name: color
+
+-- description
+TODO
+-- description
+
+# messages
+
+color_required:
+de =  Eine Farbe ist erforderlich, zum Beispiel '#B6D918', '#fff' oder '#01b'.
+en = A color is required, for instance '#B6D918', '#fff' or '#01b'.
+es = Se requiere un color, por ejemplo '#B6D918', '#fff' o '#01b'.
+
+# implementations
+
+## javascript
+
+-- code
+value => {
+  if(!value.match(/^\s*#[0-9a-f]{3}([0-9a-f]{3})?\s*$/i))
+    throw 'color_required';
+
+  return value;
+}
+-- code
+
+specs:
+'#abcdef' = '#abcdef'
+'#ABCDEF' = '#ABCDEF'
+'#012345' = '#012345'
+'#678' = '#678'
+'#89a' = '#89a'
+'#ab' =
+'#abcd' =
+'#abcde' =
+'#bcdefg' =
+'blue' =
+
+## php
+
+prelude:
+- use \Exception;
+- private const COLOR_REGEXP = '/^\s*#[0-9a-f]{3}([0-9a-f]{3})?\s*$/i';
+
+-- code
+public static function color($value) {
+  if(!preg_match(self::COLOR_REGEXP, $value)) {
+    throw new Exception('color_required');
+  }
+
+  return $value;
+}
+-- code
+
+specs:
+'#abcdef' = '#abcdef'
+'#ABCDEF' = '#ABCDEF'
+'#012345' = '#012345'
+'#678' = '#678'
+'#89a' = '#89a'
+'#ab' =
+'#abcd' =
+'#abcde' =
+'#bcdefg' =
+'blue' =
+
+## python
+
+prelude:
+- import re
+- COLOR_RE = re.compile(r'^\s*#[0-9a-f]{3}([0-9a-f]{3})?\s*$', re.IGNORECASE)
+
+-- code
+def color(value):
+  if not COLOR_RE.match(value):
+    raise ValueError('color_required')
+
+  return value
+-- code
+
+specs:
+'#abcdef' = '#abcdef'
+'#ABCDEF' = '#ABCDEF'
+'#012345' = '#012345'
+'#678' = '#678'
+'#89a' = '#89a'
+'#ab' =
+'#abcd' =
+'#abcde' =
+'#bcdefg' =
+'blue' =
+
+## ruby
+
+prelude:
+- COLOR_REGEXP = /^\s*#[0-9a-f]{3}([0-9a-f]{3})?\s*$/i
+
+-- code
+def self.color(value)
+  raise 'color_required' unless value.match(COLOR_REGEXP)
+
+  value
+end
+-- code
+
+specs:
+'#abcdef' = '#abcdef'
+'#ABCDEF' = '#ABCDEF'
+'#012345' = '#012345'
+'#678' = '#678'
+'#89a' = '#89a'
+'#ab' =
+'#abcd' =
+'#abcde' =
+'#bcdefg' =
+'blue' =

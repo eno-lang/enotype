@@ -1,0 +1,101 @@
+name: float
+
+-- description
+TODO
+-- description
+
+# messages
+
+float_required:
+de = Eine Dezimalzahl ist erforderlich, zum Beispiel '13.0', '-9.159' oder '42'.
+en = A decimal number is required, for instance '13.0', '-9.159' or '42'.
+es = Se requiere un número decimal, por ejemplo '13.0', '-9.159' o '42'.
+
+# implementations
+
+## javascript
+
+-- code
+value => {
+  if(!value.match(/^\s*-?\d+(\.\d+)?\s*$/))
+    throw 'float_required';
+
+  return parseFloat(value);
+}
+-- code
+
+specs:
+'42' = 42.0
+'-42' = -42.0
+'42.0' = 42.0
+'42,0' =
+'4 2.0' =
+'fortytwo' =
+
+## php
+
+prelude:
+- use \Exception;
+- private const FLOAT_REGEXP = '/^\s*-?\d+(\.\d+)?\s*$/';
+
+-- code
+public static function float($value) {
+  if(!preg_match(self::FLOAT_REGEXP, $value)) {
+    throw new Exception('float_required');
+  }
+
+  return floatval($value);
+}
+-- code
+
+specs:
+'42' = 42.0
+'-42' = -42.0
+'42.0' = 42.0
+'42,0' =
+'4 2.0' =
+'fortytwo' =
+
+## python
+
+prelude:
+- import re
+- python_float = float
+- FLOAT_RE = re.compile(r'^\s*-?\d+(\.\d+)?\s*$')
+
+-- code
+def float(value):
+  if not FLOAT_RE.match(value):
+    raise ValueError('float_required')
+
+  return python_float(value)
+-- code
+
+specs:
+'42' = 42.0
+'-42' = -42.0
+'42.0' = 42.0
+'42,0' =
+'4 2.0' =
+'fortytwo' =
+
+## ruby
+
+prelude:
+- FLOAT_REGEXP = /^\s*-?\d+(\.\d+)?\s*$/
+
+-- code
+def self.float(value)
+  raise 'float_required' unless value.match(FLOAT_REGEXP)
+  
+  value.to_f
+end
+-- code
+
+specs:
+'42' = 42.0
+'-42' = -42.0
+'42.0' = 42.0
+'42,0' =
+'4 2.0' =
+'fortytwo' =

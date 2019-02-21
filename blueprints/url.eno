@@ -1,0 +1,117 @@
+name: url
+
+-- description
+TODO
+-- description
+
+# messages
+
+url_required:
+de = Eine valide URL ist erforderlich, zum Beispiel 'https://eno-lang.org'.
+en = A valid URL is required, for instance 'https://eno-lang.org'.
+es = Se requiere un URL valido, por ejemplo 'https://eno-lang.org'.
+
+# implementations
+
+## javascript
+
+-- code
+value => {
+  if(!value.match(/^\s*https?:\/\/[^\s.]+\.\S+\s*$/))
+    throw 'url_required';
+
+  return value;
+}
+-- code
+
+specs:
+`'http://www.valid.com'` = 'http://www.valid.com'
+`'https://valid.com'` = 'https://valid.com'
+`'https://www.valid.com'` = 'https://www.valid.com'
+'invalid' =
+'www.invalid' =
+'www.invalid.com' =
+`'htp://www.invalid.com'` =
+`'http:/invalid.com'` =
+'https//invalid.com' =
+`'https://invalid'` =
+
+## php
+
+prelude:
+- use \Exception;
+- private const URL_REGEXP = '/^\s*https?:\/\/[^\s.]+\.\S+\s*$/';
+
+-- code
+public static function url($value) {
+  if(!preg_match(self::URL_REGEXP, $value)) {
+    throw new Exception('url_required');
+  }
+
+  return $value;
+}
+-- code
+
+specs:
+`'http://www.valid.com'` = 'http://www.valid.com'
+`'https://valid.com'` = 'https://valid.com'
+`'https://www.valid.com'` = 'https://www.valid.com'
+'invalid' =
+'www.invalid' =
+'www.invalid.com' =
+`'htp://www.invalid.com'` =
+`'http:/invalid.com'` =
+'https//invalid.com' =
+`'https://invalid'` =
+
+## python
+
+prelude:
+- import re
+- URL_RE = re.compile(r'^\s*https?:\/\/[^\s.]+\.\S+\s*$')
+
+-- code
+def url(value):
+  if not URL_RE.match(value):
+    raise ValueError('url_required')
+
+  return value
+
+-- code
+
+specs:
+`'http://www.valid.com'` = 'http://www.valid.com'
+`'https://valid.com'` = 'https://valid.com'
+`'https://www.valid.com'` = 'https://www.valid.com'
+'invalid' =
+'www.invalid' =
+'www.invalid.com' =
+`'htp://www.invalid.com'` =
+`'http:/invalid.com'` =
+'https//invalid.com' =
+`'https://invalid'` =
+
+## ruby
+
+prelude:
+- URL_REGEXP = /^\s*https?:\/\/[^\s.]+\.\S+\s*$/
+
+-- code
+def self.url(value)
+  raise 'url_required' unless value.match(URL_REGEXP)
+
+  value
+end
+-- code
+
+specs:
+`'http://www.valid.com'` = 'http://www.valid.com'
+`'https://valid.com'` = 'https://valid.com'
+`'https://www.valid.com'` = 'https://www.valid.com'
+'invalid' =
+'www.invalid' =
+'www.invalid.com' =
+`'htp://www.invalid.com'` =
+`'http:/invalid.com'` =
+'https//invalid.com' =
+`'https://invalid'` =

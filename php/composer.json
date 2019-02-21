@@ -1,0 +1,35 @@
+{
+  "authors": [
+    {
+      "email": "simon@fdpl.io",
+      "homepage": "https://simonrepp.com",
+      "name": "Simon Repp"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Enotype\\": "src/"
+    }
+  },
+  "description": "A cross-language standard library for types",
+  "keywords": [
+    "conversion",
+    "enotype",
+    "date",
+    "loaders",
+    "time",
+    "types",
+    "validation"
+  ],
+  "homepage": "https://eno-lang.org/",
+  "license": "MIT",
+  "name": "eno-lang/enotype",
+  "require-dev": {
+    "kahlan/kahlan": "^4.5"
+  },
+  "support": {
+    "docs": "https://eno-lang.org/",
+    "issues": "https://github.com/eno-lang/enotype/issues",
+    "source": "https://github.com/eno-lang/enotype/"
+  }
+}

@@ -1,4 +1,7 @@
 /.pytest_cache/
+/build/
+/dist/
+/enotype.egg-info/
 /venv/
 
 __pycache__/

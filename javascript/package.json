@@ -4,6 +4,7 @@
     "jest": "^24.1.0"
   },
   "description": "A cross-language standard library for types",
+  "files": ["lib"],
   "license": "MIT",
   "main": "./lib/en.js",
   "name": "enotype",

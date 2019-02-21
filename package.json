@@ -1,0 +1,16 @@
+{
+  "author": "Simon Repp <simon@fdpl.io>",
+  "dependencies": {
+    "fast-glob": "^2.2.6",
+    "fs-extra": "^7.0.1",
+    "speakingurl": "^14.0.1"
+  },
+  "description": "A cross-language standard library for types",
+  "license": "MIT",
+  "name": "enotype",
+  "private": true,
+  "scripts": {
+    "generate": "node generate.js"
+  },
+  "version": "0.1.0"
+}

@@ -1,8 +1,8 @@
-const eno = require('../enolib/javascript');
+const enolib = require('enolib');
 const glob = require('fast-glob');
 const fs = require('fs');
 
-const { TerminalReporter } = require('../enolib/javascript');
+const { TerminalReporter } = require('enolib');
 
 const { escapeSingleQuotes } = require('./utilities.js');
 
@@ -17,7 +17,7 @@ module.exports = async () => {
   };
 
   for(const file of (await glob('blueprints/*.eno')).sort()) {
-    const blueprint = eno.parse(
+    const blueprint = enolib.parse(
       await fs.promises.readFile(file, 'utf-8'),
       { reporter: TerminalReporter, source: file }
     );
@@ -37,7 +37,7 @@ module.exports = async () => {
       for(let locale of blueprints.locales) {
         loader[language][locale] = unlocalized;
 
-        for(let message of blueprint.section('messages').elements()) {
+        for(let message of blueprint.section('messages').fieldsets()) {
           const placeholder = message.stringKey();
           const translation = message.entry(locale).requiredStringValue();
 

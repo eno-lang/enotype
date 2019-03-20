@@ -90,7 +90,7 @@ exports.latLng = value => {
 
 exports.slug = value => {
   if(!value.match(SLUG_REGEX))
-    throw 'A slug like for instance \'blog_post\', \'eno-notation\' oder \'62-things\' is required - only the characters a-z, 0-9, \'-\' und \'_\' are allowed.';
+    throw 'A slug like for instance \'blog_post\', \'eno-notation\' or \'62-things\' is required - only the characters a-z, 0-9, \'-\' und \'_\' are allowed.';
 
   return value;
 };

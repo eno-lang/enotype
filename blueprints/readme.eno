@@ -1,0 +1,109 @@
+-- global
+# enotype
+
+**A cross-language type library**
+
+CODE_DEMO
+
+## Features
+
+- Validation and conversion of `string` representations into language-native types.
+- Implemented as a collection of minimalist functions, so called *loaders*.
+- Zero-cost localization (currently CURRENT_LOCALES) through statically generated code.
+- Generically usable in a multitude of contexts through a plain and simple design.
+- Standard type library for the [eno notation language](https://eno-lang.org).
+-- global
+
+-- javascript
+```js
+const { color } = require('enotype');
+
+color('#fff'); // returns "#fff"
+color('#xyz'); // throws "A color is required, for instance '#B6D918', '#fff' or '#01b'."
+```
+
+```js
+const { color } = require('enotype/es'); // with localized error messages
+
+color('#xyz'); // throws "Se requiere un color, por ejemplo '#B6D918', '#fff' o '#01b'."
+```
+
+## Installation
+
+```
+npm install enotype
+```
+-- javascript
+
+-- php
+```php
+<?php
+
+use Enotype\Loaders;
+
+Loaders::color('#fff'); // returns "#fff"
+Loaders::color('#xyz'); // throws Exception("A color is required, for instance '#B6D918', '#fff' or '#01b'.")
+```
+
+```php
+<?php
+
+use Enotype\Es\Loaders; // with localized error messages
+
+Loaders::color('#xyz'); // throws Exception("Se requiere un color, por ejemplo '#B6D918', '#fff' o '#01b'.")
+```
+
+## Installation Notice
+
+enotype for php is complete and fully-featured but not yet released on packagist because they don't support package publication from a multi-language monorepo (https://github.com/composer/packagist/issues/472). Please manually pull sources from github in the meanwhile - sorry for the inconvenience.
+-- php
+
+-- python
+```python
+from enotype import color
+
+color('#fff') # returns "#fff"
+color('#xyz') # raises ValueError("A color is required, for instance '#B6D918', '#fff' or '#01b'.")
+```
+
+```python
+from enotype.es import color # with localized error messages
+
+color('#xyz') # raises ValueError("Se requiere un color, por ejemplo '#B6D918', '#fff' o '#01b'.")
+```
+
+## Installation
+
+```
+pip install enotype
+```
+-- python
+
+-- ruby
+```ruby
+require 'enotype'
+
+Enotype::color('#fff') # returns "#fff"
+Enotype::color('#xyz') # raises "A color is required, for instance '#B6D918', '#fff' or '#01b'."
+```
+
+```ruby
+require 'enotype/es' # with localized error messages
+
+Enotype::color('#xyz') # raises "Se requiere un color, por ejemplo '#B6D918', '#fff' o '#01b'."
+```
+
+## Installation
+
+Either add it to your `Gemfile`:
+
+```ruby
+gem 'enotype'
+```
+
+Or install it manually:
+
+```
+gem install enotype
+```
+-- ruby

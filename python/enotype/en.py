@@ -112,7 +112,7 @@ def lat_lng(value):
 
 def slug(value):
   if not SLUG_RE.match(value):
-    raise ValueError('A slug like for instance \'blog_post\', \'eno-notation\' oder \'62-things\' is required - only the characters a-z, 0-9, \'-\' und \'_\' are allowed.')
+    raise ValueError('A slug like for instance \'blog_post\', \'eno-notation\' or \'62-things\' is required - only the characters a-z, 0-9, \'-\' und \'_\' are allowed.')
 
   return value
 

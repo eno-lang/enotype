@@ -75,6 +75,28 @@ module.exports = async blueprints => {
     `;
 
     await fs.promises.writeFile(path.join(__dirname, `../python/tests/test_${loader.name}.py`), code);
-
   }
+
+  const readme = interpolatify`
+    ${blueprints.readme.global.replace('CODE_DEMO', blueprints.readme.python)
+                              .replace('CURRENT_LOCALES', blueprints.locales.map(locale => `\`${locale}\``).join(', '))}
+
+    ## Documentation
+
+    ${blueprints.loaders.map(loader => interpolatify`
+      ### ${loader.name}
+
+      \`\`\`python
+      import ${loader.name} from enotype
+
+      ${loader.name}(${Object.keys(loader.python.specs)[0]}) # returns ${Object.values(loader.python.specs)[0]}
+      \`\`\`
+
+      ${Object.entries(loader.python.specs).map(([input, expected]) => interpolatify`
+        \`${input}\` ${expected === null ? 'raises an exception.' : `returns \`${expected}\`.`}
+      `).join('  \n')}
+    `).join('\n')}
+  `;
+
+  await fs.promises.writeFile(path.join(__dirname, `../python/README.md`), readme);
 }

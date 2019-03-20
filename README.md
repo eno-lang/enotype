@@ -1,14 +1,17 @@
 # enotype
 
-**A cross-language standard library for types.**
+**A cross-language type library**
 
-```js
-const { color } = require('enotype');
+Available for JavaScript, PHP, Python and Ruby.
 
-color('#fff'); // returns '#fff'
-color('#xyz'); // throws 'A color is required, for instance '#B6D918', '#fff' or '#01b'.'
-```
+## Features
 
-enotype is a collection of minimalist pure functions that validate and convert type-unsafe `string` representations into type-safe, native types.
+- Validation and conversion of `string` representations into language-native types.
+- Implemented as a collection of minimalist functions, so called *loaders*.
+- Zero-cost localization (currently `de`, `en`, `es`) through statically generated code.
+- Generically usable in a multitude of contexts through a plain and simple design.
+- Standard type library for the [eno notation language](https://eno-lang.org).
 
-It is the standard type library for the [eno notation language](https://eno-lang.org) but can be utilized in a multitude of other contexts as well.
+## Documentation
+
+Visit the language subfolders in this repository for language-specific documentation.

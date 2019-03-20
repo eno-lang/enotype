@@ -93,4 +93,29 @@ module.exports = async blueprints => {
 
     await fs.promises.writeFile(path.join(__dirname, `../php/spec/${loader.name}.spec.php`), code);
   }
+
+  const readme = interpolatify`
+    ${blueprints.readme.global.replace('CODE_DEMO', blueprints.readme.php)
+                              .replace('CURRENT_LOCALES', blueprints.locales.map(locale => `\`${locale}\``).join(', '))}
+
+    ## Documentation
+
+    ${blueprints.loaders.map(loader => interpolatify`
+      ### ${camelCase(loader.name)}
+
+      \`\`\`php
+      <?php
+      
+      use Enotype\\Loaders;
+
+      Loaders::${camelCase(loader.name)}(${Object.keys(loader.php.specs)[0]}); // returns ${Object.values(loader.php.specs)[0]}
+      \`\`\`
+
+      ${Object.entries(loader.php.specs).map(([input, expected]) => interpolatify`
+        \`${input}\` ${expected === null ? 'throws an error.' : `returns \`${expected}\`.`}
+      `).join('  \n')}
+    `).join('\n')}
+  `;
+
+  await fs.promises.writeFile(path.join(__dirname, `../php/README.md`), readme);
 }

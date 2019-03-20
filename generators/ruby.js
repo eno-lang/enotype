@@ -93,4 +93,27 @@ module.exports = async blueprints => {
 
     await fs.promises.writeFile(path.join(__dirname, `../ruby/spec/${loader.name}.spec.rb`), code);
   }
+
+  const readme = interpolatify`
+    ${blueprints.readme.global.replace('CODE_DEMO', blueprints.readme.ruby)
+                              .replace('CURRENT_LOCALES', blueprints.locales.map(locale => `\`${locale}\``).join(', '))}
+
+    ## Documentation
+
+    ${blueprints.loaders.map(loader => interpolatify`
+      ### ${loader.name}
+
+      \`\`\`ruby
+      require 'enotype'
+
+      Enotype::${loader.name}(${Object.keys(loader.ruby.specs)[0]}) # returns ${Object.values(loader.ruby.specs)[0]}
+      \`\`\`
+
+      ${Object.entries(loader.ruby.specs).map(([input, expected]) => interpolatify`
+        \`${input}\` ${expected === null ? 'raises an exception.' : `returns \`${expected}\`.`}
+      `).join('  \n')}
+    `).join('\n')}
+  `;
+
+  await fs.promises.writeFile(path.join(__dirname, `../ruby/README.md`), readme);
 }

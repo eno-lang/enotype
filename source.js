@@ -13,10 +13,11 @@ module.exports = async () => {
   const blueprints = {
     languages: LANGUAGES,
     loaders: [],
-    locales: LOCALES
+    locales: LOCALES,
+    readme: {}
   };
 
-  for(const file of (await glob('blueprints/*.eno')).sort()) {
+  for(const file of (await glob('blueprints/loaders/*.eno')).sort()) {
     const blueprint = enolib.parse(
       await fs.promises.readFile(file, 'utf-8'),
       { reporter: TerminalReporter, source: file }
@@ -63,6 +64,15 @@ module.exports = async () => {
     blueprint.assertAllTouched();
 
     blueprints.loaders.push(loader);
+  }
+
+  const readmeDocument = enolib.parse(
+    await fs.promises.readFile('blueprints/readme.eno', 'utf-8'),
+    { reporter: TerminalReporter, source: 'blueprints/readme.eno' }
+  );
+
+  for(const field of readmeDocument.fields()) {
+    blueprints.readme[field.stringKey()] = field.requiredStringValue();
   }
 
   return blueprints;

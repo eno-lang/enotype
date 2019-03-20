@@ -155,7 +155,7 @@ class Loaders {
   
   public static function slug($value) {
     if(!preg_match(self::SLUG_REGEXP, $value)) {
-      throw new Exception('A slug like for instance \'blog_post\', \'eno-notation\' oder \'62-things\' is required - only the characters a-z, 0-9, \'-\' und \'_\' are allowed.');
+      throw new Exception('A slug like for instance \'blog_post\', \'eno-notation\' or \'62-things\' is required - only the characters a-z, 0-9, \'-\' und \'_\' are allowed.');
     }
   
     return $value;

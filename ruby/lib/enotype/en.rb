@@ -97,7 +97,7 @@ module Enotype
   end
   
   def self.slug(value)
-    raise 'A slug like for instance \'blog_post\', \'eno-notation\' oder \'62-things\' is required - only the characters a-z, 0-9, \'-\' und \'_\' are allowed.' unless value.match(SLUG_REGEXP)
+    raise 'A slug like for instance \'blog_post\', \'eno-notation\' or \'62-things\' is required - only the characters a-z, 0-9, \'-\' und \'_\' are allowed.' unless value.match(SLUG_REGEXP)
   
     value
   end

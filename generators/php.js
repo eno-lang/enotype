@@ -50,7 +50,7 @@ module.exports = async blueprints => {
     await fs.promises.writeFile(path.join(__dirname, `../php/src/${titleCase(locale)}/Loaders.php`), code);
   }
 
-  for(let loader of blueprints.loaders) {
+  for(const loader of blueprints.loaders) {
     if(!loader.php.hasOwnProperty('specs'))
       continue;
 

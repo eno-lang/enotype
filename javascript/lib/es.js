@@ -5,6 +5,7 @@ const EMAIL_REGEX = /^\s*[^@\s]+@[^@\s]+\.[^@\s]+\s*$/;
 const FLOAT_REGEX = /^\s*-?\d+(\.\d+)?\s*$/;
 const INTEGER_REGEX = /^\s*-?\d+\s*$/;
 const LAT_LNG_REGEX = /^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$/;
+const SLUG_REGEX = /^[0-9a-z\-_]+$/;
 const URL_REGEX = /^\s*https?:\/\/[^\s.]+\.\S+\s*$/;
 
 exports.boolean = value => {
@@ -85,6 +86,13 @@ exports.latLng = value => {
     throw 'Se requiere una pareja de coordenadas latitud/longitud valida, por ejemplo \'48.2093723, 16.356099\'';
 
   return { lat: parseFloat(match[1]), lng: parseFloat(match[2]) };
+};
+
+exports.slug = value => {
+  if(!value.match(SLUG_REGEX))
+    throw 'Se requiere un slug como por ejemplo \'blog_post\', \'eno-notacion\' o \'62-cosas\' - solo los caracteres a-z, 0-9, \'-\' und \'_\' son permitidos.';
+
+  return value;
 };
 
 exports.url = value => {

@@ -13,6 +13,7 @@ class Loaders {
   private const FLOAT_REGEXP = '/^\s*-?\d+(\.\d+)?\s*$/';
   private const INTEGER_REGEXP = '/^\s*-?\d+\s*$/';
   private const LAT_LNG_REGEXP = '/^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$/';
+  private const SLUG_REGEXP = '/^[0-9a-z\-_]+$/';
   private const URL_REGEXP = '/^\s*https?:\/\/[^\s.]+\.\S+\s*$/';
 
   public static function boolean($value) {
@@ -150,6 +151,14 @@ class Loaders {
     }
   
     return [ 'lat' => floatval($match[1]), 'lng' => floatval($match[2]) ];
+  }
+  
+  public static function slug($value) {
+    if(!preg_match(self::SLUG_REGEXP, $value)) {
+      throw new Exception('A slug like for instance \'blog_post\', \'eno-notation\' oder \'62-things\' is required - only the characters a-z, 0-9, \'-\' und \'_\' are allowed.');
+    }
+  
+    return $value;
   }
   
   public static function url($value) {

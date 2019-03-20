@@ -25,7 +25,7 @@ module.exports = async blueprints => {
     const loaders = [];
 
     for(const loader of blueprints.loaders) {
-      for(let instruction of loader.ruby.prelude) {
+      for(const instruction of loader.ruby.prelude) {
         if(instruction.startsWith('require ')) {
           if(!requires.includes(instruction)) {
             requires.push(instruction);

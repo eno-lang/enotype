@@ -11,6 +11,7 @@ python_float = float
 FLOAT_RE = re.compile(r'^\s*-?\d+(\.\d+)?\s*$')
 INTEGER_RE = re.compile(r'^\s*-?\d+\s*$')
 LAT_LNG_RE = re.compile(r'^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$')
+SLUG_RE = re.compile(r'^[0-9a-z\-_]+$')
 URL_RE = re.compile(r'^\s*https?:\/\/[^\s.]+\.\S+\s*$')
 
 def boolean(value):
@@ -108,6 +109,12 @@ def lat_lng(value):
     raise ValueError('Ein valides Breiten-/Längengrad Koordinatenpaar ist erforderlich, zum Beispiel \'48.2093723, 16.356099\'.')
 
   return { 'lat': python_float(match.group(1)), 'lng': python_float(match.group(2)) }
+
+def slug(value):
+  if not SLUG_RE.match(value):
+    raise ValueError('Ein Slug wie zum Beispiel \'blog_post\', \'eno-notation\' oder \'62-dinge\' ist erforderlich - nur die Zeichen a-z, 0-9, \'-\' und \'_\' sind erlaubt.')
+
+  return value
 
 def url(value):
   if not URL_RE.match(value):

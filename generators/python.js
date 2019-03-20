@@ -18,8 +18,8 @@ module.exports = async blueprints => {
     const prelude = [];
     let loaders = [];
 
-    for(let loader of blueprints.loaders) {
-      for(let instruction of loader.python.prelude) {
+    for(const loader of blueprints.loaders) {
+      for(const instruction of loader.python.prelude) {
         if(instruction.match(/^(import|from) /)) {
           if(!imports.includes(instruction)) {
             imports.push(instruction);

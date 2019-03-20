@@ -1,0 +1,107 @@
+name: slug
+
+-- description
+Accepts only the characters a-z, 0-9, '-' and '_'.
+-- description
+
+# messages
+
+slug_required:
+de =  Ein Slug wie zum Beispiel 'blog_post', 'eno-notation' oder '62-dinge' ist erforderlich - nur die Zeichen a-z, 0-9, '-' und '_' sind erlaubt.
+en = A slug like for instance 'blog_post', 'eno-notation' or '62-things' is required - only the characters a-z, 0-9, '-' und '_' are allowed.
+es = Se requiere un slug como por ejemplo 'blog_post', 'eno-notacion' o '62-cosas' - solo los caracteres a-z, 0-9, '-' und '_' son permitidos.
+
+# implementations
+
+## javascript
+
+prelude:
+- const SLUG_REGEX = /^[0-9a-z\-_]+$/;
+
+-- code
+value => {
+  if(!value.match(SLUG_REGEX))
+    throw 'slug_required';
+
+  return value;
+}
+-- code
+
+specs:
+'eno-lang-article' = 'eno-lang-article'
+'eno_lang_article' = 'eno_lang_article'
+'eno-lang-article!' =
+'%eno-lang-article' =
+'eno lang article' =
+'enö-läng-ärticle' =
+'énó-láng-ártíclé' =
+
+## php
+
+prelude:
+- use \Exception;
+- private const SLUG_REGEXP = '/^[0-9a-z\-_]+$/';
+
+-- code
+public static function slug($value) {
+  if(!preg_match(self::SLUG_REGEXP, $value)) {
+    throw new Exception('slug_required');
+  }
+
+  return $value;
+}
+-- code
+
+specs:
+'eno-lang-article' = 'eno-lang-article'
+'eno_lang_article' = 'eno_lang_article'
+'eno-lang-article!' =
+'%eno-lang-article' =
+'eno lang article' =
+'enö-läng-ärticle' =
+'énó-láng-ártíclé' =
+
+## python
+
+prelude:
+- import re
+- SLUG_RE = re.compile(r'^[0-9a-z\-_]+$')
+
+-- code
+def slug(value):
+  if not SLUG_RE.match(value):
+    raise ValueError('slug_required')
+
+  return value
+-- code
+
+specs:
+'eno-lang-article' = 'eno-lang-article'
+'eno_lang_article' = 'eno_lang_article'
+'eno-lang-article!' =
+'%eno-lang-article' =
+'eno lang article' =
+'enö-läng-ärticle' =
+'énó-láng-ártíclé' =
+
+## ruby
+
+prelude:
+- SLUG_REGEXP = /^[0-9a-z\-_]+$/
+
+-- code
+def self.slug(value)
+  raise 'slug_required' unless value.match(SLUG_REGEXP)
+
+  value
+end
+-- code
+
+specs:
+'eno-lang-article' = 'eno-lang-article'
+'eno_lang_article' = 'eno_lang_article'
+'eno-lang-article!' =
+'%eno-lang-article' =
+'eno lang article' =
+'enö-läng-ärticle' =
+'énó-láng-ártíclé' =

@@ -8,7 +8,7 @@ module.exports = async blueprints => {
   await fsExtra.emptyDir(path.join(__dirname, '../javascript/lib'));
   await fsExtra.emptyDir(path.join(__dirname, '../javascript/specs'));
 
-  for(let locale of blueprints.locales) {
+  for(const locale of blueprints.locales) {
     const prelude = [];
 
     const loaders = blueprints.loaders.map(loader => {
@@ -26,12 +26,12 @@ module.exports = async blueprints => {
     await fs.promises.writeFile(path.join(__dirname, `../javascript/lib/${locale}.js`), code);
   }
 
-  for(let loader of blueprints.loaders) {
+  for(const loader of blueprints.loaders) {
     if(!loader.javascript.hasOwnProperty('specs'))
       continue;
 
     const scenarios = [];
-    for(let [input, expected] of Object.entries(loader.javascript.specs)) {
+    for(const [input, expected] of Object.entries(loader.javascript.specs)) {
       if(expected) {
         const primitive = expected.match(/^([!`'"+\-1-9]|false|null|true|undefined)/);
         scenarios.push(interpolatify`

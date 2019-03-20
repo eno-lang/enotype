@@ -7,6 +7,7 @@ EMAIL_REGEXP = /^\s*[^@\s]+@[^@\s]+\.[^@\s]+\s*$/
 FLOAT_REGEXP = /^\s*-?\d+(\.\d+)?\s*$/
 INTEGER_REGEXP = /^\s*-?\d+\s*$/
 LAT_LNG_REGEXP = /^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$/
+SLUG_REGEXP = /^[0-9a-z\-_]+$/
 URL_REGEXP = /^\s*https?:\/\/[^\s.]+\.\S+\s*$/
 
 module Enotype
@@ -93,6 +94,12 @@ module Enotype
     raise 'A valid latitude/longitude coordinate pair is required, for instance \'48.2093723, 16.356099\'.' unless match
   
     { lat: match[1].to_f, lng: match[2].to_f }
+  end
+  
+  def self.slug(value)
+    raise 'A slug like for instance \'blog_post\', \'eno-notation\' oder \'62-things\' is required - only the characters a-z, 0-9, \'-\' und \'_\' are allowed.' unless value.match(SLUG_REGEXP)
+  
+    value
   end
   
   def self.url(value)

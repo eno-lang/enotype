@@ -1,1 +1,1 @@
-from .en import boolean, color, comma_separated, date, datetime, email, float, integer, json, lat_lng, url
+from .en import boolean, color, comma_separated, date, datetime, email, float, integer, json, lat_lng, slug, url

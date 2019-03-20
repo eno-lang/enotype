@@ -1,7 +1,7 @@
 {
   "author": "Simon Repp <simon@fdpl.io>",
   "dependencies": {
-    "enolib": "^0.3.0",
+    "enolib": "^0.3.1",
     "fast-glob": "^2.2.6",
     "fs-extra": "^7.0.1",
     "speakingurl": "^14.0.1"

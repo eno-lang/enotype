@@ -1,10 +1,12 @@
 {
   "author": "Simon Repp <simon@fdpl.io>",
   "devDependencies": {
-    "jest": "^24.1.0"
+    "jest": "^24.5.0"
   },
   "description": "A cross-language standard library for types",
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "license": "MIT",
   "main": "./lib/en.js",
   "name": "enotype",

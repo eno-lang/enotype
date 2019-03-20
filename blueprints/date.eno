@@ -15,9 +15,12 @@ es = Se requiere una fecha valida, por ejemplo '1993-11-18'
 
 ## javascript
 
+prelude:
+- const DATE_REGEX = /^\s*(\d{4})-(\d\d)-(\d\d)\s*$/;
+
 -- code
 value => {
-  const match = /^\s*(\d{4})-(\d\d)-(\d\d)\s*$/.exec(value);
+  const match = DATE_REGEX.exec(value);
 
   if(!match)
     throw 'date_required';

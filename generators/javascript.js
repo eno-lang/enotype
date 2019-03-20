@@ -9,9 +9,19 @@ module.exports = async blueprints => {
   await fsExtra.emptyDir(path.join(__dirname, '../javascript/specs'));
 
   for(let locale of blueprints.locales) {
-    const code = blueprints.loaders.map(loader =>
-      `exports.${camelCase(loader.name)} = ${loader.javascript[locale]};`
-    ).join('\n\n');
+    const prelude = [];
+
+    const loaders = blueprints.loaders.map(loader => {
+      for(const instruction of loader.javascript.prelude) {
+        if(!prelude.includes(instruction)) {
+          prelude.push(instruction);
+        }
+      }
+
+      return `exports.${camelCase(loader.name)} = ${loader.javascript[locale]};`;
+    }).join('\n\n');
+
+    const code = (prelude.length > 0 ? prelude.join('\n') + '\n\n' : '') + loaders;
 
     await fs.promises.writeFile(path.join(__dirname, `../javascript/lib/${locale}.js`), code);
   }

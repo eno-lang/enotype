@@ -15,9 +15,12 @@ es = Se requiere un URL valido, por ejemplo 'https://eno-lang.org'.
 
 ## javascript
 
+prelude:
+- const URL_REGEX = /^\s*https?:\/\/[^\s.]+\.\S+\s*$/;
+
 -- code
 value => {
-  if(!value.match(/^\s*https?:\/\/[^\s.]+\.\S+\s*$/))
+  if(!value.match(URL_REGEX))
     throw 'url_required';
 
   return value;

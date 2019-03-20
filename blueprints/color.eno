@@ -15,9 +15,12 @@ es = Se requiere un color, por ejemplo '#B6D918', '#fff' o '#01b'.
 
 ## javascript
 
+prelude:
+- const COLOR_REGEX = /^\s*#[0-9a-f]{3}([0-9a-f]{3})?\s*$/i;
+
 -- code
 value => {
-  if(!value.match(/^\s*#[0-9a-f]{3}([0-9a-f]{3})?\s*$/i))
+  if(!value.match(COLOR_REGEX))
     throw 'color_required';
 
   return value;

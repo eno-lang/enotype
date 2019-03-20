@@ -1,3 +1,12 @@
+const COLOR_REGEX = /^\s*#[0-9a-f]{3}([0-9a-f]{3})?\s*$/i;
+const DATE_REGEX = /^\s*(\d{4})-(\d\d)-(\d\d)\s*$/;
+const DATETIME_REGEX = /^\s*(\d{4})(?:-(\d\d)(?:-(\d\d)(?:T(\d\d):(\d\d)(?::(\d\d)(?:\.(\d+))?)?(?:(Z)|([+\-])(\d\d):(\d\d)))?)?)?\s*$/;
+const EMAIL_REGEX = /^\s*[^@\s]+@[^@\s]+\.[^@\s]+\s*$/;
+const FLOAT_REGEX = /^\s*-?\d+(\.\d+)?\s*$/;
+const INTEGER_REGEX = /^\s*-?\d+\s*$/;
+const LAT_LNG_REGEX = /^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$/;
+const URL_REGEX = /^\s*https?:\/\/[^\s.]+\.\S+\s*$/;
+
 exports.boolean = value => {
   switch(value.trim().toLowerCase()) {
     case 'true': return true;
@@ -9,7 +18,7 @@ exports.boolean = value => {
 };
 
 exports.color = value => {
-  if(!value.match(/^\s*#[0-9a-f]{3}([0-9a-f]{3})?\s*$/i))
+  if(!value.match(COLOR_REGEX))
     throw 'Eine Farbe ist erforderlich, zum Beispiel \'#B6D918\', \'#fff\' oder \'#01b\'.';
 
   return value;
@@ -18,7 +27,7 @@ exports.color = value => {
 exports.commaSeparated = value => value.split(',').map(item => item.trim());
 
 exports.date = value => {
-  const match = /^\s*(\d{4})-(\d\d)-(\d\d)\s*$/.exec(value);
+  const match = DATE_REGEX.exec(value);
 
   if(!match)
     throw 'Ein valides Datum ist erforderlich, zum Beispiel \'1993-11-18\'.';
@@ -31,7 +40,7 @@ exports.date = value => {
 };
 
 exports.datetime = value => {
-  const match = /^\s*(\d{4})(?:-(\d\d)(?:-(\d\d)(?:T(\d\d):(\d\d)(?::(\d\d)(?:\.(\d+))?)?(?:(Z)|([+\-])(\d\d):(\d\d)))?)?)?\s*$/.exec(value);
+  const match = DATETIME_REGEX.exec(value);
 
   if(!match)
     throw 'Ein valides Datum oder Datum und Zeit sind erforderlich, zum Beispiel \'1961-01-22\' oder \'1989-11-09T19:17Z\' (siehe https://www.w3.org/TR/NOTE-datetime).';
@@ -41,21 +50,21 @@ exports.datetime = value => {
 };
 
 exports.email = value => {
-  if(!value.match(/^\s*[^@\s]+@[^@\s]+\.[^@\s]+\s*$/))
+  if(!value.match(EMAIL_REGEX))
     throw 'Eine valide Email Adresse ist erforderlich, zum Beispiel \'jane.doe@eno-lang.org\'.';
 
   return value;
 };
 
 exports.float = value => {
-  if(!value.match(/^\s*-?\d+(\.\d+)?\s*$/))
+  if(!value.match(FLOAT_REGEX))
     throw 'Eine Dezimalzahl ist erforderlich, zum Beispiel \'13.0\', \'-9.159\' oder \'42\'.';
 
   return parseFloat(value);
 };
 
 exports.integer = value => {
-  if(!value.match(/^\s*-?\d+\s*$/))
+  if(!value.match(INTEGER_REGEX))
     throw 'Eine Ganzzahl ist erforderlich, zum Beispiel \'42\' oder \'-21\'.';
 
   return parseInt(value);
@@ -70,7 +79,7 @@ exports.json = value => {
 };
 
 exports.latLng = value => {
-  const match = /^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$/.exec(value);
+  const match = LAT_LNG_REGEX.exec(value);
 
   if(!match)
     throw 'Ein valides Breiten-/Längengrad Koordinatenpaar ist erforderlich, zum Beispiel \'48.2093723, 16.356099\'.';
@@ -79,7 +88,7 @@ exports.latLng = value => {
 };
 
 exports.url = value => {
-  if(!value.match(/^\s*https?:\/\/[^\s.]+\.\S+\s*$/))
+  if(!value.match(URL_REGEX))
     throw 'Eine valide URL ist erforderlich, zum Beispiel \'https://eno-lang.org\'.';
 
   return value;

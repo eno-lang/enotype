@@ -15,9 +15,12 @@ es = Se requiere un número decimal, por ejemplo '13.0', '-9.159' o '42'.
 
 ## javascript
 
+prelude:
+- const FLOAT_REGEX = /^\s*-?\d+(\.\d+)?\s*$/;
+
 -- code
 value => {
-  if(!value.match(/^\s*-?\d+(\.\d+)?\s*$/))
+  if(!value.match(FLOAT_REGEX))
     throw 'float_required';
 
   return parseFloat(value);

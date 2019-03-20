@@ -15,9 +15,12 @@ es = Se requiere una dirección electrónica valida, por ejemplo 'jane.doe@eno-l
 
 ## javascript
 
+prelude:
+- const EMAIL_REGEX = /^\s*[^@\s]+@[^@\s]+\.[^@\s]+\s*$/;
+
 -- code
 value => {
-  if(!value.match(/^\s*[^@\s]+@[^@\s]+\.[^@\s]+\s*$/))
+  if(!value.match(EMAIL_REGEX))
     throw 'email_required';
 
   return value;

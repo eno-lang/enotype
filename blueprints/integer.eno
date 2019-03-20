@@ -15,9 +15,12 @@ es = Se requiere un número entero, por ejemplo '42' o '-21'.
 
 ## javascript
 
+prelude:
+- const INTEGER_REGEX = /^\s*-?\d+\s*$/;
+
 -- code
 value => {
-  if(!value.match(/^\s*-?\d+\s*$/))
+  if(!value.match(INTEGER_REGEX))
     throw 'integer_required';
 
   return parseInt(value);

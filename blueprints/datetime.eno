@@ -26,9 +26,12 @@ es = Se requiere una valida fecha o fecha y hora, por ejemplo '1961-01-22' o '19
 
 ## javascript
 
+prelude:
+- const DATETIME_REGEX = /^\s*(\d{4})(?:-(\d\d)(?:-(\d\d)(?:T(\d\d):(\d\d)(?::(\d\d)(?:\.(\d+))?)?(?:(Z)|([+\-])(\d\d):(\d\d)))?)?)?\s*$/;
+
 -- code
 value => {
-  const match = /^\s*(\d{4})(?:-(\d\d)(?:-(\d\d)(?:T(\d\d):(\d\d)(?::(\d\d)(?:\.(\d+))?)?(?:(Z)|([+\-])(\d\d):(\d\d)))?)?)?\s*$/.exec(value);
+  const match = DATETIME_REGEX.exec(value);
 
   if(!match)
     throw 'datetime_required';

@@ -1,17 +1,24 @@
 {
   "author": "Simon Repp <simon@fdpl.io>",
+  "bugs": {
+    "url": "https://github.com/eno-lang/enotype/issues"
+  },
   "dependencies": {
     "enolib": "^0.3.1",
     "fast-glob": "^2.2.6",
     "fs-extra": "^7.0.1",
     "speakingurl": "^14.0.1"
   },
-  "description": "A cross-language standard library for types",
+  "description": "A cross-language type library",
   "license": "MIT",
   "name": "enotype",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eno-lang/enotype.git"
+  },
   "scripts": {
     "generate": "node generate.js"
   },
-  "version": "0.1.0"
+  "version": "0.2.0"
 }

@@ -25,7 +25,7 @@
   "license": "MIT",
   "name": "eno-lang/enotype",
   "require-dev": {
-    "kahlan/kahlan": "^4.5"
+    "kahlan/kahlan": "^4.6"
   },
   "support": {
     "docs": "https://eno-lang.org/",

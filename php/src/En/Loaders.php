@@ -12,6 +12,7 @@ class Loaders {
   private const EMAIL_REGEXP = '/^\s*[^@\s]+@[^@\s]+\.[^@\s]+\s*$/';
   private const FLOAT_REGEXP = '/^\s*-?\d+(\.\d+)?\s*$/';
   private const INTEGER_REGEXP = '/^\s*-?\d+\s*$/';
+  private const IPV4_REGEXP = '/^\s*((\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3}))\s*$/';
   private const LAT_LNG_REGEXP = '/^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$/';
   private const SLUG_REGEXP = '/^[0-9a-z\-_]+$/';
   private const URL_REGEXP = '/^\s*https?:\/\/[^\s.]+\.\S+\s*$/';
@@ -112,6 +113,25 @@ class Loaders {
     }
   
     return intval($value);
+  }
+  
+  public static function ipv4($value) {
+    $matched = preg_match(self::IPV4_REGEXP, $value, $match);
+  
+    if($matched) {
+      $octet1 = intval($match[2]);
+      $octet2 = intval($match[3]);
+      $octet3 = intval($match[4]);
+      $octet4 = intval($match[5]);
+      
+      if($octet1 >= 0 && $octet1 <= 255 &&
+         $octet2 >= 0 && $octet2 <= 255 &&
+         $octet3 >= 0 && $octet3 <= 255 &&
+         $octet4 >= 0 && $octet4 <= 255)
+        return $match[1];
+    }
+  
+    throw new Exception('A valid IPv4 address is required, for instance \'192.168.0.1\'.');
   }
   
   public static function json($value) {

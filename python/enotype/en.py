@@ -10,6 +10,7 @@ EMAIL_RE = re.compile(r'^\s*[^@\s]+@[^@\s]+\.[^@\s]+\s*$')
 python_float = float
 FLOAT_RE = re.compile(r'^\s*-?\d+(\.\d+)?\s*$')
 INTEGER_RE = re.compile(r'^\s*-?\d+\s*$')
+IPV4_RE = re.compile(r'^\s*((\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3}))\s*$')
 LAT_LNG_RE = re.compile(r'^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$')
 SLUG_RE = re.compile(r'^[0-9a-z\-_]+$')
 URL_RE = re.compile(r'^\s*https?:\/\/[^\s.]+\.\S+\s*$')
@@ -95,6 +96,18 @@ def integer(value):
     raise ValueError('An integer is required, for instance \'42\' or \'-21\'.')
 
   return int(value)
+
+def ipv4(value):
+  match = IPV4_RE.match(value)
+
+  if (match and
+      0 <= int(match.group(2)) <= 255 and
+      0 <= int(match.group(3)) <= 255 and
+      0 <= int(match.group(4)) <= 255 and
+      0 <= int(match.group(5)) <= 255):
+    return match.group(1)
+
+  raise ValueError('A valid IPv4 address is required, for instance \'192.168.0.1\'.')
 
 def json(value):
   try:

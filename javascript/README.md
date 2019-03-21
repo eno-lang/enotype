@@ -158,6 +158,21 @@ integer('42'); // returns 42
 `'42,0'` throws an error.  
 `'4 2'` throws an error.  
 `'fortytwo'` throws an error.
+### ipv4
+
+```js
+const { ipv4 } = require('enotype');
+
+ipv4('0.0.0.0'); // returns '0.0.0.0'
+```
+
+`'0.0.0.0'` returns `'0.0.0.0'`.  
+`'255.255.255.255'` returns `'255.255.255.255'`.  
+`'192.168.0.1'` returns `'192.168.0.1'`.  
+`'10.10.10.10'` returns `'10.10.10.10'`.  
+`'255.255.255.256'` throws an error.  
+`'localhost'` throws an error.  
+`'4.staging.production.lan'` throws an error.
 ### json
 
 ```js

@@ -6,6 +6,7 @@ DATETIME_REGEXP = /^\s*(\d{4})(?:-(\d\d)(?:-(\d\d)(?:T(\d\d):(\d\d)(?::(\d\d)(?:
 EMAIL_REGEXP = /^\s*[^@\s]+@[^@\s]+\.[^@\s]+\s*$/
 FLOAT_REGEXP = /^\s*-?\d+(\.\d+)?\s*$/
 INTEGER_REGEXP = /^\s*-?\d+\s*$/
+IPV4_REGEXP = /^\s*((\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3}))\s*$/
 LAT_LNG_REGEXP = /^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$/
 SLUG_REGEXP = /^[0-9a-z\-_]+$/
 URL_REGEXP = /^\s*https?:\/\/[^\s.]+\.\S+\s*$/
@@ -78,6 +79,18 @@ module Enotype
     raise 'An integer is required, for instance \'42\' or \'-21\'.' unless value.match(INTEGER_REGEXP)
   
     value.to_i
+  end
+  
+  def self.ipv4(value)
+    match = value.match(IPV4_REGEXP)
+  
+    return match[1] if match &&
+                       match[2].to_i.between?(0, 255) &&
+                       match[3].to_i.between?(0, 255) &&
+                       match[4].to_i.between?(0, 255) &&
+                       match[5].to_i.between?(0, 255)
+  
+    raise 'A valid IPv4 address is required, for instance \'192.168.0.1\'.'
   end
   
   def self.json(value)

@@ -166,6 +166,21 @@ Enotype::integer('42') # returns 42
 `'42,0'` raises an exception.  
 `'4 2'` raises an exception.  
 `'fortytwo'` raises an exception.
+### ipv4
+
+```ruby
+require 'enotype'
+
+Enotype::ipv4('0.0.0.0') # returns '0.0.0.0'
+```
+
+`'0.0.0.0'` returns `'0.0.0.0'`.  
+`'255.255.255.255'` returns `'255.255.255.255'`.  
+`'192.168.0.1'` returns `'192.168.0.1'`.  
+`'10.10.10.10'` returns `'10.10.10.10'`.  
+`'255.255.255.256'` raises an exception.  
+`'localhost'` raises an exception.  
+`'4.staging.production.lan'` raises an exception.
 ### json
 
 ```ruby

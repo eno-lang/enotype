@@ -1,0 +1,142 @@
+name: ipv4
+
+-- description
+Accepts only IPv4 addresses, returns the validated adress as a string. 
+-- description
+
+# messages
+
+ipv4_required:
+de = Eine valide IPv4 Adresse ist erforderlich, zum Beispiel '192.168.0.1'.
+en = A valid IPv4 address is required, for instance '192.168.0.1'.
+es = Se requiere una valida dirección IPv4, por ejemplo '192.168.0.1'.
+
+# implementations
+
+## javascript
+
+prelude:
+- const IPV4_REGEX = /^\s*((\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3}))\s*$/;
+
+-- code
+value => {
+  const match = IPV4_REGEX.exec(value);
+
+  if(match) {
+    const octet1 = parseInt(match[2]);
+    const octet2 = parseInt(match[3]);
+    const octet3 = parseInt(match[4]);
+    const octet4 = parseInt(match[5]);
+    
+    if(octet1 >= 0 && octet1 <= 255 &&
+       octet2 >= 0 && octet2 <= 255 &&
+       octet3 >= 0 && octet3 <= 255 &&
+       octet4 >= 0 && octet4 <= 255)
+      return match[1];
+  }
+
+  throw 'ipv4_required';
+}
+-- code
+
+specs:
+'0.0.0.0' = '0.0.0.0'
+'255.255.255.255' = '255.255.255.255'
+'192.168.0.1' = '192.168.0.1'
+'10.10.10.10' = '10.10.10.10'
+'255.255.255.256' =
+'localhost' =
+'4.staging.production.lan' =
+
+## php
+
+prelude:
+- use \Exception;
+- private const IPV4_REGEXP = '/^\s*((\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3}))\s*$/';
+
+-- code
+public static function ipv4($value) {
+  $matched = preg_match(self::IPV4_REGEXP, $value, $match);
+
+  if($matched) {
+    $octet1 = intval($match[2]);
+    $octet2 = intval($match[3]);
+    $octet3 = intval($match[4]);
+    $octet4 = intval($match[5]);
+    
+    if($octet1 >= 0 && $octet1 <= 255 &&
+       $octet2 >= 0 && $octet2 <= 255 &&
+       $octet3 >= 0 && $octet3 <= 255 &&
+       $octet4 >= 0 && $octet4 <= 255)
+      return $match[1];
+  }
+
+  throw new Exception('ipv4_required');
+}
+-- code
+
+specs:
+'0.0.0.0' = '0.0.0.0'
+'255.255.255.255' = '255.255.255.255'
+'192.168.0.1' = '192.168.0.1'
+'10.10.10.10' = '10.10.10.10'
+'255.255.255.256' =
+'localhost' =
+'4.staging.production.lan' =
+
+## python
+
+prelude:
+- import re
+- IPV4_RE = re.compile(r'^\s*((\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3}))\s*$')
+
+-- code
+def ipv4(value):
+  match = IPV4_RE.match(value)
+
+  if (match and
+      0 <= int(match.group(2)) <= 255 and
+      0 <= int(match.group(3)) <= 255 and
+      0 <= int(match.group(4)) <= 255 and
+      0 <= int(match.group(5)) <= 255):
+    return match.group(1)
+
+  raise ValueError('ipv4_required')
+-- code
+
+specs:
+'0.0.0.0' = '0.0.0.0'
+'255.255.255.255' = '255.255.255.255'
+'192.168.0.1' = '192.168.0.1'
+'10.10.10.10' = '10.10.10.10'
+'255.255.255.256' =
+'localhost' =
+'4.staging.production.lan' =
+
+## ruby
+
+prelude:
+- IPV4_REGEXP = /^\s*((\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3}))\s*$/
+
+-- code
+def self.ipv4(value)
+  match = value.match(IPV4_REGEXP)
+
+  return match[1] if match &&
+                     match[2].to_i.between?(0, 255) &&
+                     match[3].to_i.between?(0, 255) &&
+                     match[4].to_i.between?(0, 255) &&
+                     match[5].to_i.between?(0, 255)
+
+  raise 'ipv4_required'
+end
+-- code
+
+specs:
+'0.0.0.0' = '0.0.0.0'
+'255.255.255.255' = '255.255.255.255'
+'192.168.0.1' = '192.168.0.1'
+'10.10.10.10' = '10.10.10.10'
+'255.255.255.256' =
+'localhost' =
+'4.staging.production.lan' =

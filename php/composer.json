@@ -11,7 +11,7 @@
       "Enotype\\": "src/"
     }
   },
-  "description": "A cross-language standard library for types",
+  "description": "A cross-language type library",
   "keywords": [
     "conversion",
     "enotype",
@@ -21,14 +21,14 @@
     "types",
     "validation"
   ],
-  "homepage": "https://eno-lang.org/",
+  "homepage": "https://eno-lang.org/enotype/",
   "license": "MIT",
   "name": "eno-lang/enotype",
   "require-dev": {
     "kahlan/kahlan": "^4.6"
   },
   "support": {
-    "docs": "https://eno-lang.org/",
+    "docs": "https://eno-lang.org/enotype/",
     "issues": "https://github.com/eno-lang/enotype/issues",
     "source": "https://github.com/eno-lang/enotype/"
   }

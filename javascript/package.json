@@ -11,6 +11,15 @@
     "lib"
   ],
   "homepage": "https://eno-lang.org/enotype/",
+  "keywords": [
+    "eno",
+    "conversion",
+    "date",
+    "loaders",
+    "time",
+    "types",
+    "validation"
+  ],
   "license": "MIT",
   "main": "./lib/en.js",
   "name": "enotype",

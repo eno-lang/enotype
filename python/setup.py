@@ -18,5 +18,5 @@ setup(author='Simon Repp',
       name='enotype',
       packages=find_packages(exclude=['tests', 'tests.*']),
       url='https://eno-lang.org/enotype/',
-      version='0.2.0',
+      version='0.3.0',
       zip_safe=False)

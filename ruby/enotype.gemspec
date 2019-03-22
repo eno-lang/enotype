@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.license = 'MIT'
   spec.metadata = {
     'bug_tracker_uri' => 'https://github.com/eno-lang/enotype/issues',
-    'changelog_uri'=> 'https://github.com/eno-lang/enotype/CHANGELOG.md',
+    'changelog_uri'=> 'https://github.com/eno-lang/enotype/blob/master/CHANGELOG.md',
     'documentation_uri' => 'https://eno-lang.org/enotype/',
     'homepage_uri' => 'https://eno-lang.org/enotype/',
     'source_code_uri' => 'https://github.com/eno-lang/enotype/'

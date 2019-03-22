@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.homepage = 'https://eno-lang.org/enotype/'
   spec.license = 'MIT'
   spec.name = 'enotype'
-  spec.required_ruby_version = '>= 2.3.0'
+  spec.required_ruby_version = '>= 2.4.0'
   spec.summary = 'A cross-language type library'
   spec.version = '0.2.0'
 end

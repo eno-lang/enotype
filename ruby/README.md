@@ -181,6 +181,21 @@ Enotype.ipv4('0.0.0.0') # returns '0.0.0.0'
 `'255.255.255.256'` raises an exception.  
 `'localhost'` raises an exception.  
 `'4.staging.production.lan'` raises an exception.
+### ipv6
+
+```ruby
+require 'enotype'
+
+Enotype::ipv6('::1') # returns '::1'
+```
+
+`'::1'` returns `'::1'`.  
+`'2001:db8::'` returns `'2001:db8::'`.  
+`'0:0:0:0:0:0:0:0'` returns `'0:0:0:0:0:0:0:0'`.  
+`':::1'` raises an exception.  
+`'::0::1'` raises an exception.  
+`'localhost'` raises an exception.  
+`'0.0.0.0'` raises an exception.
 ### json
 
 ```ruby

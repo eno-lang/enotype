@@ -173,6 +173,21 @@ ipv4('0.0.0.0'); // returns '0.0.0.0'
 `'255.255.255.256'` throws an error.  
 `'localhost'` throws an error.  
 `'4.staging.production.lan'` throws an error.
+### ipv6
+
+```js
+const { ipv6 } = require('enotype');
+
+ipv6('::1'); // returns '::1'
+```
+
+`'::1'` returns `'::1'`.  
+`'2001:db8::'` returns `'2001:db8::'`.  
+`'0:0:0:0:0:0:0:0'` returns `'0:0:0:0:0:0:0:0'`.  
+`':::1'` throws an error.  
+`'::0::1'` throws an error.  
+`'localhost'` throws an error.  
+`'0.0.0.0'` throws an error.
 ### json
 
 ```js

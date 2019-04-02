@@ -1,3 +1,4 @@
+require 'ipaddr'
 require 'json'
 
 COLOR_REGEXP = /^\s*#[0-9a-f]{3}([0-9a-f]{3})?\s*$/i
@@ -91,6 +92,16 @@ module Enotype
                        match[5].to_i.between?(0, 255)
   
     raise 'Eine valide IPv4 Adresse ist erforderlich, zum Beispiel \'192.168.0.1\'.'
+  end
+  
+  def self.ipv6(value)
+    begin
+      return value if IPAddr.new(value).ipv6?
+    rescue IPAddr::Error => err
+      # fall through
+    end
+  
+    raise 'Eine valide IPv6 Adresse ist erforderlich, zum Beispiel \'2001:db8::\'.'
   end
   
   def self.json(value)

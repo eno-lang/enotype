@@ -11,6 +11,7 @@ python_float = float
 FLOAT_RE = re.compile(r'^\s*-?\d+(\.\d+)?\s*$')
 INTEGER_RE = re.compile(r'^\s*-?\d+\s*$')
 IPV4_RE = re.compile(r'^\s*((\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3}))\s*$')
+IPV6_RE = re.compile(r'^\s*((\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3}))\s*$')
 LAT_LNG_RE = re.compile(r'^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$')
 SLUG_RE = re.compile(r'^[0-9a-z\-_]+$')
 URL_RE = re.compile(r'^\s*https?:\/\/[^\s.]+\.\S+\s*$')
@@ -108,6 +109,18 @@ def ipv4(value):
     return match.group(1)
 
   raise ValueError('Eine valide IPv4 Adresse ist erforderlich, zum Beispiel \'192.168.0.1\'.')
+
+def ipv6(value):
+  match = IPV6_RE.match(value)
+
+  if (match and
+      0 <= int(match.group(2)) <= 255 and
+      0 <= int(match.group(3)) <= 255 and
+      0 <= int(match.group(4)) <= 255 and
+      0 <= int(match.group(5)) <= 255):
+    return match.group(1)
+
+  raise ValueError('Eine valide IPv6 Adresse ist erforderlich, zum Beispiel \'2001:db8::\'.')
 
 def json(value):
   try:

@@ -5,6 +5,7 @@ const EMAIL_REGEX = /^\s*[^@\s]+@[^@\s]+\.[^@\s]+\s*$/;
 const FLOAT_REGEX = /^\s*-?\d+(\.\d+)?\s*$/;
 const INTEGER_REGEX = /^\s*-?\d+\s*$/;
 const IPV4_REGEX = /^\s*((\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3}))\s*$/;
+const IPV6_REGEX = /^\s*((\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3}))\s*$/;
 const LAT_LNG_REGEX = /^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$/;
 const SLUG_REGEX = /^[0-9a-z\-_]+$/;
 const URL_REGEX = /^\s*https?:\/\/[^\s.]+\.\S+\s*$/;
@@ -89,6 +90,25 @@ exports.ipv4 = value => {
   }
 
   throw 'Eine valide IPv4 Adresse ist erforderlich, zum Beispiel \'192.168.0.1\'.';
+};
+
+exports.ipv6 = value => {
+  const match = IPV6_REGEX.exec(value);
+
+  if(match) {
+    const octet1 = parseInt(match[2]);
+    const octet2 = parseInt(match[3]);
+    const octet3 = parseInt(match[4]);
+    const octet4 = parseInt(match[5]);
+    
+    if(octet1 >= 0 && octet1 <= 255 &&
+       octet2 >= 0 && octet2 <= 255 &&
+       octet3 >= 0 && octet3 <= 255 &&
+       octet4 >= 0 && octet4 <= 255)
+      return match[1];
+  }
+
+  throw 'Eine valide IPv6 Adresse ist erforderlich, zum Beispiel \'2001:db8::\'.';
 };
 
 exports.json = value => {

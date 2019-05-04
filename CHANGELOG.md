@@ -4,6 +4,14 @@ This project follows semantic versioning.
 
 All enotype implementations across supported languages share the same version number, consequently not every minor or patch version is released for all languages, but only for those affected by the changes.
 
+## 0.3.1
+
+### Ruby-only release
+
+- Implement, test and document procs helper for ruby `6b4852e`
+- Use message instead of scope operator for all ruby loader calls `6469659`
+- Fix changelog uri in gemspec `e6e2c8f`
+
 ## 0.3.0
 
 ### Features

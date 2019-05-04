@@ -16,5 +16,5 @@ Gem::Specification.new do |spec|
   spec.name = 'enotype'
   spec.required_ruby_version = '>= 2.4.0'
   spec.summary = 'A cross-language type library'
-  spec.version = '0.3.0'
+  spec.version = '0.3.1'
 end

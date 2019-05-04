@@ -247,3 +247,25 @@ Enotype.url('http://www.valid.com') # returns 'http://www.valid.com'
 `'http:/invalid.com'` raises an exception.  
 `'https//invalid.com'` raises an exception.  
 `'https://invalid'` raises an exception.
+
+### procs
+
+Not a loader but a helper method to obtain some or all loaders wrapped in a
+hash of procs, which allows to pass them around easily (this is mainly
+intended for registering loaders with
+[enolib](https://eno-lang.org/enolib)).
+
+```ruby
+require 'enotype'
+
+# Get all loaders wrapped in a hash of procs
+loaders = Enotype.procs
+loaders[:boolean].call('true')  # returns true
+
+# Get only the color and float loaders wrapped in a hash of procs
+loaders = Enotype.procs(:color, :float)
+loaders[:float].call('42.0')  # returns 42.0
+
+# Registering loaders with enolib (main intended usage)
+Enolib.register(Enotype.procs(:color, :float))
+```

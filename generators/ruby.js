@@ -46,6 +46,25 @@ module.exports = async blueprints => {
 
       module Enotype
         ${loaders.join('\n\n')}
+
+        def self.procs(*explicitly_requested)
+          available = self.singleton_methods.reject { |name| name == :procs }
+
+          if explicitly_requested.empty?
+            available.to_h do |name|
+              [name, Proc.new { |value| self.send(name, value) }]
+            end
+          else
+            explicitly_requested.to_h do |name|
+              unless available.include?(name)
+                list = available.map { |name| ":#{name}" }.join(', ')
+                raise "Enotype does not provide :#{name}, available are: #{list}"
+              end
+
+              [name, Proc.new { |value| self.send(name, value) }]
+            end
+          end
+        end
       end
     `;
 
@@ -94,6 +113,36 @@ module.exports = async blueprints => {
     await fs.promises.writeFile(path.join(__dirname, `../ruby/spec/${loader.name}.spec.rb`), code);
   }
 
+  // Generate global spec for procs
+
+  const code = interpolatify`
+    require 'enotype'
+
+    describe '::procs' do
+      it 'returns all loaders as a hash of procs' do
+        expect(Enotype.procs.length).to eq(${blueprints.loaders.length})
+      end
+
+      it 'returns actual loaders' do
+        expect(Enotype.procs[:boolean].call('true')).to be true
+      end
+
+      context 'requesting explicit loaders' do
+        it 'only returns those specified' do
+          loaders = Enotype.procs(:color, :float)
+
+          expect(loaders.length).to eq(2)
+          expect(loaders.include?(:color)).to be true
+          expect(loaders.include?(:float)).to be true
+        end
+      end
+    end
+  `;
+
+  await fs.promises.writeFile(path.join(__dirname, `../ruby/spec/procs.spec.rb`), code);
+
+  // Generate readme
+
   const readme = interpolatify`
     ${blueprints.readme.global.replace('CODE_DEMO', blueprints.readme.ruby)
                               .replace('CURRENT_LOCALES', blueprints.locales.map(locale => `\`${locale}\``).join(', '))}
@@ -113,6 +162,28 @@ module.exports = async blueprints => {
         \`${input}\` ${expected === null ? 'raises an exception.' : `returns \`${expected}\`.`}
       `).join('  \n')}
     `).join('\n')}
+
+    ### procs
+
+    Not a loader but a helper method to obtain some or all loaders wrapped in a
+    hash of procs, which allows to pass them around easily (this is mainly
+    intended for registering loaders with
+    [enolib](https://eno-lang.org/enolib)).
+
+    \`\`\`ruby
+    require 'enotype'
+
+    # Get all loaders wrapped in a hash of procs
+    loaders = Enotype.procs
+    loaders[:boolean].call('true')  # returns true
+
+    # Get only the color and float loaders wrapped in a hash of procs
+    loaders = Enotype.procs(:color, :float)
+    loaders[:float].call('42.0')  # returns 42.0
+
+    # Registering loaders with enolib (main intended usage)
+    Enolib.register(Enotype.procs(:color, :float))
+    \`\`\`
   `;
 
   await fs.promises.writeFile(path.join(__dirname, `../ruby/README.md`), readme);

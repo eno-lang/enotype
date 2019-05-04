@@ -120,4 +120,23 @@ module Enotype
   
     value
   end
+
+  def self.procs(*explicitly_requested)
+    available = self.singleton_methods.reject { |name| name == :procs }
+
+    if explicitly_requested.empty?
+      available.to_h do |name|
+        [name, Proc.new { |value| self.send(name, value) }]
+      end
+    else
+      explicitly_requested.to_h do |name|
+        unless available.include?(name)
+          list = available.map { |name| ":#{name}" }.join(', ')
+          raise "Enotype does not provide :#{name}, available are: #{list}"
+        end
+
+        [name, Proc.new { |value| self.send(name, value) }]
+      end
+    end
+  end
 end

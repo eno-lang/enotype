@@ -5,14 +5,14 @@
 ```ruby
 require 'enotype'
 
-Enotype::color('#fff') # returns "#fff"
-Enotype::color('#xyz') # raises "A color is required, for instance '#B6D918', '#fff' or '#01b'."
+Enotype.color('#fff')  # returns "#fff"
+Enotype.color('#xyz')  # raises "A color is required, for instance '#B6D918', '#fff' or '#01b'."
 ```
 
 ```ruby
-require 'enotype/es' # with localized error messages
+require 'enotype/es'  # with localized error messages
 
-Enotype::color('#xyz') # raises "Se requiere un color, por ejemplo '#B6D918', '#fff' o '#01b'."
+Enotype.color('#xyz')  # raises "Se requiere un color, por ejemplo '#B6D918', '#fff' o '#01b'."
 ```
 
 ## Installation
@@ -44,7 +44,7 @@ gem install enotype
 ```ruby
 require 'enotype'
 
-Enotype::boolean('true') # returns true
+Enotype.boolean('true') # returns true
 ```
 
 `'true'` returns `true`.  
@@ -57,7 +57,7 @@ Enotype::boolean('true') # returns true
 ```ruby
 require 'enotype'
 
-Enotype::color('#abcdef') # returns '#abcdef'
+Enotype.color('#abcdef') # returns '#abcdef'
 ```
 
 `'#abcdef'` returns `'#abcdef'`.  
@@ -75,7 +75,7 @@ Enotype::color('#abcdef') # returns '#abcdef'
 ```ruby
 require 'enotype'
 
-Enotype::comma_separated('one,two,three') # returns ['one', 'two', 'three']
+Enotype.comma_separated('one,two,three') # returns ['one', 'two', 'three']
 ```
 
 `'one,two,three'` returns `['one', 'two', 'three']`.  
@@ -91,7 +91,7 @@ Enotype::comma_separated('one,two,three') # returns ['one', 'two', 'three']
 ```ruby
 require 'enotype'
 
-Enotype::date('1992-02-02') # returns Time.utc(1992, 2, 2)
+Enotype.date('1992-02-02') # returns Time.utc(1992, 2, 2)
 ```
 
 `'1992-02-02'` returns `Time.utc(1992, 2, 2)`.  
@@ -111,7 +111,7 @@ Enotype::date('1992-02-02') # returns Time.utc(1992, 2, 2)
 ```ruby
 require 'enotype'
 
-Enotype::datetime('1990') # returns Time.utc(1990, 1, 1)
+Enotype.datetime('1990') # returns Time.utc(1990, 1, 1)
 ```
 
 `'1990'` returns `Time.utc(1990, 1, 1)`.  
@@ -131,7 +131,7 @@ Enotype::datetime('1990') # returns Time.utc(1990, 1, 1)
 ```ruby
 require 'enotype'
 
-Enotype::email('john.doe@eno-lang.org') # returns 'john.doe@eno-lang.org'
+Enotype.email('john.doe@eno-lang.org') # returns 'john.doe@eno-lang.org'
 ```
 
 `'john.doe@eno-lang.org'` returns `'john.doe@eno-lang.org'`.  
@@ -143,7 +143,7 @@ Enotype::email('john.doe@eno-lang.org') # returns 'john.doe@eno-lang.org'
 ```ruby
 require 'enotype'
 
-Enotype::float('42') # returns 42.0
+Enotype.float('42') # returns 42.0
 ```
 
 `'42'` returns `42.0`.  
@@ -157,7 +157,7 @@ Enotype::float('42') # returns 42.0
 ```ruby
 require 'enotype'
 
-Enotype::integer('42') # returns 42
+Enotype.integer('42') # returns 42
 ```
 
 `'42'` returns `42`.  
@@ -171,7 +171,7 @@ Enotype::integer('42') # returns 42
 ```ruby
 require 'enotype'
 
-Enotype::ipv4('0.0.0.0') # returns '0.0.0.0'
+Enotype.ipv4('0.0.0.0') # returns '0.0.0.0'
 ```
 
 `'0.0.0.0'` returns `'0.0.0.0'`.  
@@ -186,7 +186,7 @@ Enotype::ipv4('0.0.0.0') # returns '0.0.0.0'
 ```ruby
 require 'enotype'
 
-Enotype::json('{ "valid": true }') # returns { 'valid' => true }
+Enotype.json('{ "valid": true }') # returns { 'valid' => true }
 ```
 
 `'{ "valid": true }'` returns `{ 'valid' => true }`.  
@@ -200,7 +200,7 @@ Enotype::json('{ "valid": true }') # returns { 'valid' => true }
 ```ruby
 require 'enotype'
 
-Enotype::lat_lng('48.205870, 16.413690') # returns { lat: 48.205870, lng: 16.413690 }
+Enotype.lat_lng('48.205870, 16.413690') # returns { lat: 48.205870, lng: 16.413690 }
 ```
 
 `'48.205870, 16.413690'` returns `{ lat: 48.205870, lng: 16.413690 }`.  
@@ -219,7 +219,7 @@ Enotype::lat_lng('48.205870, 16.413690') # returns { lat: 48.205870, lng: 16.413
 ```ruby
 require 'enotype'
 
-Enotype::slug('eno-lang-article') # returns 'eno-lang-article'
+Enotype.slug('eno-lang-article') # returns 'eno-lang-article'
 ```
 
 `'eno-lang-article'` returns `'eno-lang-article'`.  
@@ -234,7 +234,7 @@ Enotype::slug('eno-lang-article') # returns 'eno-lang-article'
 ```ruby
 require 'enotype'
 
-Enotype::url('http://www.valid.com') # returns 'http://www.valid.com'
+Enotype.url('http://www.valid.com') # returns 'http://www.valid.com'
 ```
 
 `'http://www.valid.com'` returns `'http://www.valid.com'`.  

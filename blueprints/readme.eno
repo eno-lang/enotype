@@ -83,14 +83,14 @@ pip install enotype
 ```ruby
 require 'enotype'
 
-Enotype::color('#fff') # returns "#fff"
-Enotype::color('#xyz') # raises "A color is required, for instance '#B6D918', '#fff' or '#01b'."
+Enotype.color('#fff')  # returns "#fff"
+Enotype.color('#xyz')  # raises "A color is required, for instance '#B6D918', '#fff' or '#01b'."
 ```
 
 ```ruby
-require 'enotype/es' # with localized error messages
+require 'enotype/es'  # with localized error messages
 
-Enotype::color('#xyz') # raises "Se requiere un color, por ejemplo '#B6D918', '#fff' o '#01b'."
+Enotype.color('#xyz')  # raises "Se requiere un color, por ejemplo '#B6D918', '#fff' o '#01b'."
 ```
 
 ## Installation

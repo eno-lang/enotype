@@ -64,13 +64,13 @@ module.exports = async blueprints => {
 
         expectation = interpolatify`
           it 'produces the expected result' do
-            expect(Enotype::${loader.name}(${input})).to ${matcher}(${expected})
+            expect(Enotype.${loader.name}(${input})).to ${matcher}(${expected})
           end
         `;
       } else {
         expectation = interpolatify`
           it 'raises an error' do
-            expect { Enotype::${loader.name}(${input}) }.to raise_error(RuntimeError)
+            expect { Enotype.${loader.name}(${input}) }.to raise_error(RuntimeError)
           end
         `;
       }
@@ -106,7 +106,7 @@ module.exports = async blueprints => {
       \`\`\`ruby
       require 'enotype'
 
-      Enotype::${loader.name}(${Object.keys(loader.ruby.specs)[0]}) # returns ${Object.values(loader.ruby.specs)[0]}
+      Enotype.${loader.name}(${Object.keys(loader.ruby.specs)[0]}) # returns ${Object.values(loader.ruby.specs)[0]}
       \`\`\`
 
       ${Object.entries(loader.ruby.specs).map(([input, expected]) => interpolatify`
